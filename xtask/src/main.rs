@@ -5,6 +5,7 @@
 
 mod corpus;
 mod corpus_pins;
+mod docs_sync;
 mod i18n_coverage;
 mod ico;
 mod layers;
@@ -42,6 +43,10 @@ commands:
                   check perf/budgets.toml and perf/baseline.json (non-zero on a broken budget or regression)
   scorecard [--check]
                   regenerate docs/scorecard.md (--check: fail if it is stale)
+  docs-sync [--check] [--facts]
+                  refill the <!-- fact:KEY --> values in ROADMAP.md, AGENTS.md and docs/*.md from the
+                  scorecard inputs, i18n coverage and scorecard/measured.toml, and check that no prose
+                  states a checklist status that scorecard/*.toml contradicts (--facts: list the keys)
   version [set X.Y.Z[-pre]]
                   print the workspace version, or set it (Cargo.toml + Cargo.lock)
   ico <out.ico> <in.png>...
@@ -62,6 +67,7 @@ fn main() -> ExitCode {
         Some("i18n-coverage") => i18n_coverage::run(&root()),
         Some("perf") => perf::run(&root(), &rest),
         Some("scorecard") => scorecard::run(&root(), &rest),
+        Some("docs-sync") => docs_sync::run(&root(), &rest),
         Some("version") => version::run(&root(), &rest),
         Some("ico") => ico::run(&rest),
         Some("-h" | "--help" | "help") | None => {

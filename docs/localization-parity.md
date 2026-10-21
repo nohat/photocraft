@@ -21,8 +21,8 @@ installed per Creative Cloud install, here `en_US`). It has no Hindi, Arabic, In
 Vietnamese UI; Arabic and Hebrew users get English "Middle East" builds with the World-Ready
 composer, and its text engine handles RTL, Devanagari and Indic scripts.
 
-**Re-measured 2026-10-21** with `cargo xtask i18n-coverage` on `main` at 68348dc: **1,918
-source keys**. English, Spanish, German, Japanese, Portuguese (Brazil) and Vietnamese translate
+**Re-measured 2026-10-21** with `cargo xtask i18n-coverage` on `main` at 68348dc: **<!-- fact:i18n.keys -->1,918<!-- /fact -->
+source keys** (the bold figures in this paragraph are kept current by `cargo xtask docs-sync`). English, Spanish, German, Japanese, Portuguese (Brazil) and Vietnamese translate
 1,918 of 1,918; Simplified Chinese, French, Korean and Indonesian 1,904 (99.3%). The per-row key
 counts in the table below are from 2026-10-10 except Vietnamese; the other shipped languages are
 at 100% except Polish (99.3%), and Hungarian, Serbian and Turkish catalogs now exist.
@@ -48,7 +48,7 @@ speakers, ~55% ready. Remaining: 80–140 h, plus native-speaker review (recorde
 | Japanese | `ja` | 1,608 / 1,608 (100%) | 3,356 | as above | CJK fonts, IME (Windows IME broken, #590), vertical type (tategaki); installed Japanese fonts missing from the list (#2330) | no | partial | 10–16 h |
 | German | `de` | 1,608 / 1,608 (100%) | 2,400 | as above | Latin | no | partial | 6–10 h |
 | Korean | `ko` | 1,608 / 1,608 (100%) | 2,936 | as above; terminology from Photoshop's Korean UI ([notes](localization-ko.md)) | Hangul fonts, IME | no | partial | 6–10 h |
-| Vietnamese | `vi` | 1,918 / 1,918 (100%, 2026-10-21) | – | as above; locale selection (#2636, merged 2026-10-12, in 0.11.1) | Latin with stacked diacritics (shaping supported) | no | partial | native review |
+| Vietnamese | `vi` | <!-- fact:i18n.vi.of -->1,918 / 1,918<!-- /fact --> (<!-- fact:i18n.vi -->100%<!-- /fact -->) | – | as above; locale selection (#2636, merged 2026-10-12, in 0.11.1) | Latin with stacked diacritics (shaping supported) | no | partial | native review |
 
 ## Other shipped languages
 

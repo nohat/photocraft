@@ -19,7 +19,11 @@ and ids stay lowercase (`photocraft-<version>-<platform>-<arch>.<ext>`, `ai.stor
    cargo xtask version set 0.2.0       # or 0.2.0-rc.1; updates Cargo.toml and Cargo.lock
    ```
 
-   Commit the change (`Cargo.toml` + `Cargo.lock`) through the normal review flow.
+   For a release (no `-pre` suffix) the same command stamps `released = "0.2.0"` on every
+   `scorecard/*.toml` row whose status is new since the last release and regenerates
+   `docs/scorecard.md`, so its **Released** column says what this version ships and what is
+   only on `main`. Commit the change (`Cargo.toml`, `Cargo.lock`, `scorecard/` and
+   `docs/scorecard.md`) through the normal review flow.
 2. **Merge `main` into `release`** (or fast-forward it) and push. The workflow starts by itself.
 3. **Wait for the draft.** After about 30 to 45 minutes (notarization is the slow part), the
    Releases page has a draft `PhotoCraft v0.2.0`, tagged `v0.2.0` on the pushed commit, with
@@ -29,7 +33,8 @@ and ids stay lowercase (`photocraft-<version>-<platform>-<arch>.<ext>`, `ai.stor
 5. **Add the scorecard deltas** to the draft's notes: what moved in
    [`docs/scorecard.md`](scorecard.md) since the previous release. Compare the summary table
    and the performance table of both tags (`git diff v<previous> v<this> -- docs/scorecard.md`)
-   and list each area's done / partial / missing change, the scenarios that newly meet their
+   and list each area's done / partial / missing change (the rows stamped with this version are
+   exactly the status changes since the previous release), the scenarios that newly meet their
    budget or got slower, corpus floors raised, and the change in settings that do nothing.
    Quote numbers with the baseline's machine and load average.
 6. **Publish** the draft in the GitHub UI. Publishing creates the `v0.2.0` tag. Versions with a

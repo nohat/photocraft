@@ -80,6 +80,19 @@ Priorities: important infrastructure first, then low-hanging parity, then the lo
    (menu wiring) is not a measure of behaviour. When your work moves a number or closes a gap,
    update the parity doc and gap entry it belongs to, with the date, and bump their status line
    and revision history (craftrules `standards/progress-docs.md`).
+
+   **Keeping the progress docs true.** Don't type a number into prose that something already
+   measures: quote it as `<!-- fact:KEY -->VALUE<!-- /fact -->` (`cargo xtask docs-sync --facts`
+   lists the keys: corpus floors, checklist counts and statuses, the perf baseline, prefs, menu
+   wiring, translation coverage). A number someone measured by hand goes once in
+   `scorecard/measured.toml` with its date and source, and prose quotes that key. A status you
+   state for a checklist id (`TOOL-213-12 done`, or a parity-table row naming the id) must match
+   `scorecard/*.toml`; CI fails otherwise. Every scorecard row has `checked` (when its evidence
+   was last confirmed: update it whenever you touch the row) and, once shipped, `released` (the
+   first release with its current status). When you change a row's status, delete its
+   `released`: the next `cargo xtask version set X.Y.Z` stamps it. Estimates (percentages, hours)
+   are judgement, not facts: date them, and when their evidence moves, say so rather than
+   leaving them to read as current.
 1. **Check `docs/scorecard.md`** before picking work: each area's `missing` and `partial` rows,
    the performance scenarios that are over budget or not measurable yet, and the count of
    settings that do nothing. Its numbers are measured; prefer them to estimates.
@@ -101,6 +114,8 @@ cargo test -p photocraft-engine --test panic_hunt -- --ignored   # if you added/
 cargo xtask scorecard       # if you moved a number: flip the checklist row in scorecard/*.toml, raise a
                             # corpus floor, fix a dead preference, or meet a budget (then set enforce = true
                             # in perf/budgets.toml); commit the regenerated docs/scorecard.md (CI checks it)
+cargo xtask docs-sync       # if you touched scorecard/, a corpus floor, translations or a progress doc: refills
+                            # the <!-- fact --> values and checks prose status claims against scorecard/*.toml
 cargo xtask perf --quick    # if you touched a hot path; `cargo xtask perf --update-baseline` publishes a full run
 cargo xtask test-corpus     # if you touched psd, io, codecs, compose, gpu, text or format (or: --changed decides)
 ```
