@@ -211,9 +211,9 @@ note = "filter.vanishingPoint (vp_cmds.rs:15); on-canvas plane editor (vp_ui.rs:
 [[item]]
 id = "TOOL-214-15"
 target = "Content-Aware Fill workspace: paint the sampling area, preview, rotate/scale/mirror, new layer"
-status = "partial"
+status = "done"
 issue = 214
-note = "Engine sampling auto, rect, custom (edit_menu_cmds.rs:324); generic dialog"
+note = "Full-window workspace (ui-egui caf_ui.rs): Sampling Brush, Lasso fill-area edits, background Preview, rotation/scale/mirror and current/new/duplicate output; Apply repeats without closing; OK and Apply run edit.contentAwareFill with the same plan as the preview. Fill fidelity against Photoshop is not measured"
 
 [[item]]
 id = "TOOL-214-16"

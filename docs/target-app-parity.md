@@ -1,6 +1,6 @@
 # PhotoCraft vs Adobe Photoshop: target-app parity
 
-> **Last reviewed:** 2026-10-12 · **Last updated:** 2026-10-18 · **Change:** minor (Content-Aware Move live preview for every selection size, TOOL-213-4 done, #6680; retouching evidence: Pattern Stamp and Background Eraser draw live, only the Mixer Brush is left of TOOL-213-7; fill and adjustment layers copy and paste whole, UI-217-23 partial, #2344; shape layers take Density and Feather, TOOL-214-12 done, #5846; on-canvas corner radius widgets, TOOL-214-12; `.atn` import maps 112 events; Free Transform H/V skew fields; stale rows corrected against `main` and the scorecard, estimates unchanged; Photoshop Actions `.atn` load and save; 2026-10-10: Tilt-Shift measurements added; earlier the same day: major, full re-measure against Photoshop 2026 27.11.0; merged `parity-estimate.md` and the roadmap's honest assessment; stale missing-tool rows corrected: Color Replacement and Red Eye are live toolbar tools, Frame landed; percentages unchanged) · **Target:** Adobe Photoshop 2026
+> **Last reviewed:** 2026-10-21 · **Last updated:** 2026-10-21 · **Change:** minor (2026-10-21 reassessment against 0.11.1 and `main` at 68348dc: headline, audience and effort numbers labelled historical pending recalculation; superseded evidence cells corrected; no percentage, weight or hour re-measured; earlier: Content-Aware Move live preview for every selection size, TOOL-213-4 done, #6680; retouching evidence: Pattern Stamp and Background Eraser draw live, only the Mixer Brush is left of TOOL-213-7; fill and adjustment layers copy and paste whole, UI-217-23 partial, #2344; shape layers take Density and Feather, TOOL-214-12 done, #5846; on-canvas corner radius widgets, TOOL-214-12; `.atn` import maps 112 events; Free Transform H/V skew fields; stale rows corrected against `main` and the scorecard, estimates unchanged; Photoshop Actions `.atn` load and save; 2026-10-10: Tilt-Shift measurements added; earlier the same day: major, full re-measure against Photoshop 2026 27.11.0; merged `parity-estimate.md` and the roadmap's honest assessment; stale missing-tool rows corrected: Color Replacement and Red Eye are live toolbar tools, Frame landed; percentages unchanged) · **Target:** Adobe Photoshop 2026
 
 The authoritative answer to "how close is PhotoCraft to Photoshop, and how much work is left". The
 one-page summary is [`ROADMAP.md`](../ROADMAP.md); the ranked work list is [`gaps.md`](gaps.md);
@@ -10,7 +10,21 @@ the measured checklists are [`scorecard.md`](scorecard.md) (`cargo xtask scoreca
 [file formats](file-format-parity.md), [hardware](hardware-parity.md),
 [localization](localization-parity.md).
 
-## Headline (2026-10-10, PhotoCraft 0.6.0, `main` at 3e000bc1)
+## Status of these numbers (2026-10-21)
+
+The percentages and hours in this document come from the 2026-10-10 re-measure at 0.6.0. The
+2026-10-21 [reassessment](../ROADMAP.md#reassessment-2026-10-21) compared them with 0.11.1 and
+`main` at 68348dc and found evidence cells that no longer hold: 67 of 68 tools exist, not 54–59;
+the Content-Aware Fill workspace, image brush tips, per-control response curves, lossy DNG,
+Vietnamese and face detection have shipped; the Photoshop-oracle floor is 188 of 258, not 133 of
+256. Those cells are corrected below. The percentages, weights and hours that depend on them are
+not recalculated, so treat them as **historical estimates from 2026-10-10, pending
+recalculation**; there isn't enough evidence yet to put new numbers in their place. In
+particular, the beta estimate still counts completed work, and the performance and stability
+evidence (the 2026-10-05 baseline, raw open-issue counts) is too old or too coarse to re-grade
+those dimensions.
+
+## Headline (historical: 2026-10-10, PhotoCraft 0.6.0, `main` at 3e000bc1)
 
 | Number | Value | Kind |
 |---|---|---|
@@ -28,7 +42,7 @@ about 1,230 issues have been filed since the first release (579 open on 2026-10-
 against features already counted as present. The 2026-10-05 honest assessment (feature surface 60–70%,
 ready for real work 25–35%) was closer; ~700 merged PRs since then moved both numbers up.
 
-### Readiness by audience
+### Readiness by audience (historical, 2026-10-10)
 
 | Audience | Ready % | Opus 5.5 agent-hours to ~95% | Work that dominates |
 |---|---:|---:|---|
@@ -61,11 +75,11 @@ architecture and the PSD writer are the serial parts.
 | Component | Weight | Ours / Photoshop | % | Kind |
 |---|---:|---|---:|---|
 | Menu commands | 30% | 631 / 631 catalog items dispatch a live command (628 / 628 on 2026-10-10) | 100% | measured (`cargo xtask parity`) |
-| Toolbox tools | 15% | 59 / 68 (Photoshop's 67 `.kys` tools plus Remove, Triangle, Curvature Pen; minus legacy Rounded Rectangle and Targeted Adjustment) | 87% | measured (`Tool` enum in `ui-egui/src/state.rs`, `TOOL_SECTIONS` in `panels.rs`) |
+| Toolbox tools | 15% | 67 / 68 on 2026-10-21, Art History Brush missing (59 / 68 when this table was weighted; Photoshop's 67 `.kys` tools plus Remove, Triangle, Curvature Pen; minus legacy Rounded Rectangle and Targeted Adjustment) | 87% (not recalculated) | measured (`Tool` enum in `ui-egui/src/state.rs`, `TOOL_SECTIONS` in `panels.rs`) |
 | Panels | 10% | 30 / 35 Window-menu panels | 86% | measured (`view_cmds.rs`, panel modules) |
 | Filters and adjustments | 10% | every Filter and Image › Adjustments item live; Filter Gallery 47 looks | 100% | measured (menu catalog) |
 | File formats (usage-weighted) | 15% | 13 of 31 Photoshop formats supported in Photoshop's directions, 4 partial; the common ones (PSD/PSB, TIFF, JPEG, PNG, WebP) all present | ~80% (48% by count) | measured list, estimated weights ([file-format-parity.md](file-format-parity.md)) |
-| AI / generative | 10% | classical Select Subject/Sky, Remove tool, Content-Aware; no Generative Fill/Expand, Neural Filters, Sky Replacement, Super Zoom | ~15% | estimated |
+| AI / generative | 10% | classical Select Subject/Sky, Remove tool, Content-Aware; an embedded CNN face detector (`image.detectFaces`, 0.10.0); no general ML backend, no Generative Fill/Expand, Neural Filters, Sky Replacement, Super Zoom | ~15% | estimated |
 | Ecosystem (plug-ins, scripting, libraries) | 10% | WebAssembly plug-ins, CLI, MCP, actions, `.atn` load/save (112 events); no .8BF, UXP/ExtendScript, Libraries | ~20% | estimated |
 | **Weighted** | 100% | | **~76%** | |
 
@@ -75,17 +89,17 @@ Weights reflect what a working Photoshop user depends on (photographers, retouch
 
 | Dimension | Weight | % ready | Remaining (agent-h) | Evidence | Detail |
 |---|---:|---:|---:|---|---|
-| Features in depth (tools, layers, selections, type, filters, transforms) | 25% | 55% | 600–1,000 | Scorecard checklists: Tools 20 done / 15 partial / 6 missing, Type 0 / 3 / 6, Automation 3 / 2 / 6. 14 tools missing; Select and Mask, Vanishing Point and Content-Aware Fill are parameter dialogs, not workspaces; type on a path, manual kerning, RTL paragraphs missing | [gaps.md](gaps.md) |
-| UI / UX fidelity and feel | 15% | 40% | 350–600 | ~150 open UI issues; Workspace checklist 13 / 5 / 5 (2026-10-12; 5 / 7 / 11 on 2026-10-10); 27 of 156 preferences do nothing (was 46 of 149); no floating panel groups, thin Color panel, brush lag and pressure jumps reported | [ui-parity.md](ui-parity.md), [brush-parity.md](brush-parity.md) |
-| File formats and fidelity | 15% | 60% | 300–500 | PSD oracle on Photoshop-authored files 133/256 (52%); io corpus 146/170 (86%); psd-tools 236/309 (76%); round trips ~100% of corpus; but users report Photoshop refusing our files (#1281, #2469; a text-layer case, #2374, was fixed 2026-10-10); no Photoshop PDF, EPS, JPEG 2000, JPEG XL, AVIF read, CR3 | [file-format-parity.md](file-format-parity.md) |
-| Performance | 10% | 25% | 200–350 | 3 of 25 budgeted scenarios meet budget (baseline 2026-10-05); 150-layer nudge crashes the GPU path (P12); layer move on 15000×10000 16-bit 2.7 s p50; users report brush and cursor lag (#2619, #2566, #1994) | [scorecard.md](scorecard.md#performance) |
+| Features in depth (tools, layers, selections, type, filters, transforms) | 25% | 55% | 600–1,000 | Scorecard checklists on `main`, 2026-10-21: Tools 37 done / 7 partial / 0 missing, Type 5 / 3 / 1, Automation 5 / 3 / 3 (on 2026-10-10: 20 / 15 / 6, 0 / 3 / 6, 3 / 2 / 6). One tool missing (Art History Brush); Content-Aware Fill is a workspace (#2376); Select and Mask and Vanishing Point are still dialogs; type on a path is rigid, RTL paragraphs missing | [gaps.md](gaps.md) |
+| UI / UX fidelity and feel | 15% | 40% | 350–600 | ~150 open UI issues (2026-10-10); Workspace checklist 13 / 8 / 2 (2026-10-21; 5 / 7 / 11 on 2026-10-10); 24 of 171 preferences do nothing (2026-10-21; was 46 of 149); panels float inside the window but not as OS windows, thin Color panel, brush lag and pressure jumps reported | [ui-parity.md](ui-parity.md), [brush-parity.md](brush-parity.md) |
+| File formats and fidelity | 15% | 60% | 300–500 | PSD oracle floors on 2026-10-21: Photoshop-authored 188/258 (73%; 133/256 when graded), io corpus 148/170 (87%), psd-tools 249/309 (81%); round trips ~100% of corpus, our export to our import; no test reopens our exports in Photoshop (FILE-216-4); #1281 open without enough detail, #2469 closed as a duplicate (not as fixed); a text-layer case, #2374, was fixed 2026-10-10; lossy DNG decodes (0.10.0); no Photoshop PDF read, EPS, JPEG 2000, JPEG XL, AVIF read, CR3 | [file-format-parity.md](file-format-parity.md) |
+| Performance | 10% | 25% | 200–350 | 3 of 25 budgeted scenarios meet budget on the 2026-10-05 baseline, which predates most optimisation work and needs a fresh run before this row can be re-graded; 150-layer nudge crashes the GPU path (P12); layer move on 15000×10000 16-bit 2.7 s p50; users report brush and cursor lag (#2619, #2566, #1994) | [scorecard.md](scorecard.md#performance) |
 | Stability | 10% | 45% | 150–250 | Never-crash lints on 28/28 crates, `panic_hunt` in the gate, atomic saves; but field reports of freezes (#2518 Type tool 60 s on macOS), GPU panics (#2020, #1215), no-GPU start failures (#2519, #2412) | [gaps.md](gaps.md) |
 | Hardware | 5% | 50% | 80–150 | GPU compositor (wgpu), pen pressure on all desktops but tilt/rotation not on Windows, Wayland pen broken (#2622), no HDR/EDR output, monitor profile auto-detected on macOS only | [hardware-parity.md](hardware-parity.md) |
-| Localization | 5% | 55% | 80–140 | 7 of the 12 key languages at 100% of measured UI keys; Hindi and Arabic absent, Vietnamese catalog added 2026-10-12 (#2636, coverage not re-measured); no RTL UI; engine messages English | [localization-parity.md](localization-parity.md) |
+| Localization | 5% | 55% | 80–140 | 2026-10-21, 1,918 keys: English, Spanish, German, Japanese, Portuguese (Brazil) and Vietnamese at 100%, Chinese (Simplified), French, Korean and Indonesian at 99.3%; Hindi and Arabic absent; Vietnamese merged 2026-10-12 (#2636); no RTL UI; engine messages English; no recorded native review | [localization-parity.md](localization-parity.md) |
 | Platforms | 5% | 80% | 30–60 | macOS (notarized), Windows (unsigned), Linux (AppImage/deb/rpm/Flatpak), web, FreeBSD partial; Windows ARM64 is packaged and install-checked by `.github/workflows/windows-arm64.yml` (DIST-220-2); no in-app updates | [scorecard.md](scorecard.md#distribution) |
 | Ecosystem (plug-ins, scripting, presets, libraries) | 5% | 15% | 250–450 | No .8BF hosting (#2647), no UXP/ExtendScript; .atn load/save (2026-10-12, 112 events, the rest kept verbatim), .abr/.grd/.pat/.aco/.ase/.cube supported | [gaps.md](gaps.md) |
 | AI features | 5% | 10% | 300–600 | No ML runtime at all (scorecard AUTO-219-7); classical substitutes only. Needs an owner decision and openly licensed models (#41) | [gaps.md](gaps.md) |
-| **Weighted** | 100% | **~46%** | **2,340–4,100** | | |
+| **Weighted** | 100% | **~46%** (historical) | **2,340–4,100** (historical) | | |
 
 ## Mainstream practitioner: ~43%
 
@@ -116,7 +130,7 @@ Discounts for what still stops real work (estimated, each with evidence):
 |---|---:|---|
 | Interaction fidelity | ×0.92 | ~150 open UI issues; spring-loaded tools, panel tear-off missing ([ui-parity.md](ui-parity.md)); brush lag and pressure reports ([brush-parity.md](brush-parity.md)) |
 | Stability and speed on real machines | ×0.88 | 3 of 25 performance budgets met; 150-layer GPU crash (P12); Type tool freeze (#2518); GPU start failures (#2519, #2412, #2020); 41 open performance issues |
-| Exchanging files with Photoshop users | ×0.92 | Photoshop-authored oracle 133/256; exports refused by Photoshop (#1281, #2469); smart-filter re-render 5/30 |
+| Exchanging files with Photoshop users | ×0.92 | Photoshop-authored oracle 133/256 when graded (188/258 on 2026-10-21); no Photoshop reopen test (FILE-216-4); #1281 open, #2469 closed as a duplicate; smart-filter re-render 5/30 |
 
 **57% × 0.92 × 0.88 × 0.92 ≈ 43%** (range 38–48), estimated.
 
@@ -170,18 +184,18 @@ parity for the area and are already contained in the dimension rows above.
 | Layers, groups, masks, blend modes, smart objects, layer styles | 65% | 150–250 | Broad and GPU-accelerated. Open: a single pixel layer copies its pixels without its mask and styles (UI-217-23: smart object, type, shape, group, fill and adjustment layers and multi-layer selections copy and paste whole), smart-object perspective (FILE-215-6), a user contour library (FILE-215-15). Multi-layer Smart Object conversion (#2052, #2651), Stamp Visible (UI-217-22) and mask targeting by command (#2458) are done |
 | Selections, Select and Mask, channels | 55% | 120–200 | All selection tools, single row/column marquee included (#2837). Select and Mask is a dialog with Photoshop's view modes, a Refine Edge Brush and six outputs, not a workspace (TOOL-214-1), no Refine Hair (#2671); Select Subject/Sky classical, 559 ms p50 on 24 MP vs a 100 ms budget |
 | Painting and brush engine | 55% | 150–250 | Every Brush Settings section exists; feel is the gap: lag on big brushes, pressure jumps, smoothing and edge quality reports ([brush-parity.md](brush-parity.md)) |
-| Retouching (healing, clone, patch, remove, content-aware) | 50% | 100–180 | Remove tool non-generative; Content-Aware Fill has no workspace (TOOL-214-15); no live stroke preview for the Mixer Brush yet (TOOL-213-7) |
+| Retouching (healing, clone, patch, remove, content-aware) | 50% | 100–180 | Remove tool non-generative; Content-Aware Fill workspace with sampling brush, lasso, preview and repeated Apply (TOOL-214-15 done, #2376; area not re-graded); no live stroke preview for the Mixer Brush yet (TOOL-213-7) |
 | Transform, warp, puppet, perspective, liquify | 55% | 100–180 | Free Transform modifiers right, with a right-click transform menu (TOOL-214-5) and H/V skew fields; Puppet Warp mesh follows the object outline (TOOL-214-6); Liquify called "useless" by a user (#2606) |
 | Adjustments and filters | 70% | 120–200 | All present; smart-filter re-render matches Photoshop on 5 of 30 files; Filter Gallery looks approximate; no Neural Filters |
 | Type | 40% | 120–200 | Engine works; manual/optical kerning, a live Warp Text preview and variable-font axis sliders (2026-10-11); type on a path only places glyphs rigidly (TYPE-218-1 partial); no RTL paragraphs, OpenType panel UI; Type tool freeze on macOS (#2518) |
 | Vector shapes and paths | 55% | 80–140 | Pen, Direct/Path Selection, shapes, shape strokes. Freeform and Curvature Pen (#1054). Add/Delete Anchor Point and Convert Point tools exist (`Tool` enum); on-canvas corner radius widgets on live rectangles (TOOL-214-12, 2026-10-13); shape Density and Feather, the path as the fill's soft vector mask, matching Photoshop's 10 px feather ramp within 1 level (#5846, 2026-10-15); missing path-point nudge; shape parity tracking issue #2496 |
 | Colour management and modes | 70% | 60–100 | Own ICC engine, soft proof, CMYK/Lab/Indexed/Duotone/Multichannel; no Adobe CMYK profiles, no spot plates (FILE-215-17), monitor profile only at launch |
-| Camera Raw and computational photo (Photomerge, HDR, lens) | 45% | 120–200 | Raw for DNG/CR2/NEF/ARW/RW2/ORF/RAF(uncompressed)/PEF; no CR3; ACR dialog partial (no masking, calibration); generic lens profiles only |
-| Automation, actions, batch, scripting | 45% | 120–200 | CLI/MCP/control channel ahead of Photoshop; Actions panel and recording not document-independent (AUTO-219-1/2); `.atn` load/save since 2026-10-12 (112 events mapped, the rest kept verbatim); no ExtendScript/UXP |
+| Camera Raw and computational photo (Photomerge, HDR, lens) | 45% | 120–200 | Raw for DNG (lossy DNG too, 0.10.0)/CR2/NEF/ARW/RW2/ORF/RAF(uncompressed)/PEF; no CR3, no `.xmp` sidecars; ACR dialog partial (no masking, calibration); generic lens profiles only |
+| Automation, actions, batch, scripting | 45% | 120–200 | CLI/MCP/control channel ahead of Photoshop; layer selections and Apply Layer Comp record by name (#7181), other steps still use document-local ids (AUTO-219-1 partial); Batch and Image Processor take subfolders (#3753); `.atn` load/save since 2026-10-12 (112 events mapped, the rest kept verbatim); no ExtendScript/UXP |
 | File I/O | 60% | 300–500 | See [file-format-parity.md](file-format-parity.md) |
 | Print, export, Save for Web | 50% | 60–100 | JPEG Options dialog missing (FILE-215-19), no Photoshop PDF, no separations, Save for Web settings not remembered |
 | Video / timeline, data-driven graphics | 30% | 100–200 | Menu items live; frame model persists in `.pcraft`; no PSD video-layer mapping |
-| Workspace, panels, preferences | 40% | 150–250 | 46 of 149 prefs do nothing; no floating/OS-window panel groups; Libraries, Comments, Contextual Task Bar missing |
+| Workspace, panels, preferences | 40% | 150–250 | 24 of 171 prefs do nothing (2026-10-21; 46 of 149 when graded); panels float and regroup inside the window, not as OS windows (UI-217-5 partial); Libraries, Comments, Contextual Task Bar missing |
 | AI / generative | 10% | 300–600 | See the dimension row |
 
 Batch supports [output naming templates](batch-naming.md); AUTO-219-5 remains partial.
@@ -210,7 +224,9 @@ remaining points are harder per point (fidelity against Photoshop's unpublished 
 performance on large documents, user-reported long tail), so the remaining estimate is not lower
 than the work already done.
 
-**Totals.**
+**Totals (historical, 2026-10-10).** Both totals still include work delivered since, such as
+the missing tools, the Content-Aware Fill workspace and Vietnamese. They have not been rebuilt
+from the remaining work and the 2026-10-21 findings.
 
 | Milestone | Scope | Opus 5.5 agent-hours |
 |---|---|---:|
@@ -218,8 +234,9 @@ than the work already done.
 | **Full parity** | the above plus the AI tier, plug-in/scripting ecosystem, video depth, long-tail fidelity | **2,300–4,100** |
 
 **Parallelism.** About 80% parallelizes: areas are independent crates and command modules, and
-the repository has sustained 10–20 concurrent agents. At ~12 agents, beta is roughly 100–150
-wall-clock hours. Serial parts: GPU compositor and performance architecture, the PSD writer.
+the repository has sustained 10–20 concurrent agents. The 2026-10-10 conversion put beta at
+roughly 100–150 wall-clock hours with ~12 agents; it inherits the beta total's stale scope and
+is historical too. Serial parts: GPU compositor and performance architecture, the PSD writer.
 
 **Needs a human.** Owner decisions on the AI backend (#41: which openly licensed models, local
 vs remote) and plug-in hosting (.8BF needs native code under the isolated-`unsafe` rule; UXP is a
@@ -565,6 +582,7 @@ See [method, raw measurements and reproduction](five-algorithm-performance.md).
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-21 | minor | Reassessment against 0.11.1 and `main` at 68348dc: status section added; headline, audience, weighted total, effort totals and the 12-agent wall-clock conversion labelled historical pending recalculation; superseded evidence corrected (tools 67/68, scorecard counts, oracle floors 188/258, Content-Aware Fill workspace, lossy DNG, Vietnamese coverage, name-based action steps, Batch subfolders, face detector, floating panels, preference count, #2469 status); no percentage, weight or hour re-measured |
 | 2026-10-18 | minor | Layers: with no selection, Copy takes fill and adjustment layers whole and Paste recreates them (#2344); UI-217-23 stays partial; percentages unchanged |
 | 2026-10-16 | minor | Content-Aware Move: live result preview for every selection the command takes (TOOL-213-4 done, #6680); percentages unchanged |
 | 2026-10-15 | minor | Vector shapes: shape layers take Density and Feather (Properties › Masks), PSD and .pcraft round trip; TOOL-214-12 done (#5846); estimates unchanged |

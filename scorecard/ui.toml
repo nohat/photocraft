@@ -36,9 +36,9 @@ note = "See the prefs audit and BUG-204-*"
 [[item]]
 id = "UI-217-5"
 target = "Panel groups can float (menu + drag out of the dock) and are restored at launch"
-status = "missing"
+status = "partial"
 issue = 217
-note = "No floating groups in dock.rs/panels.rs"
+note = "Panels float and regroup inside the app window through craft-ui docking (panel_docking.rs window.panel.float; Brushes joined it in 0.10.0). Missing: groups as separate OS windows; restoring floating groups at launch is not verified by a test"
 
 [[item]]
 id = "UI-217-6"

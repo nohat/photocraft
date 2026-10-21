@@ -1,6 +1,6 @@
 # UI parity: tools, handles, modifiers and feel
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-15 · **Change:** minor (Animated Zoom: holding the Zoom tool zooms continuously, #6210; shape Density and Feather, TOOL-214-12, #5846; Pen Auto Add/Delete on the path being drawn, #6140; Show Transform Controls frames every selected layer; guide keys and clicks; menu bar from the keyboard, #4988; Crop tool Content-Aware Fill; on-canvas corner radius widgets, TOOL-214-12; Curvature Pen edits the active path; Clip Thumbnails to Layer Bounds; Pen ⇧ 45°; last selected tool restored at launch; Layers panel filter-type dropdown with Kind, Name and Mode, #5048; Free Transform box and marching ants follow the selection, #5297; History: the trash deletes the selected snapshot, rows drag onto the trash, #5324; smart filter reordering by drag; smart object perspective row corrected to done, #426; Free Transform H/V skew fields; toolbar tool shortcuts can be reassigned; ⇧-dragged guides land on ruler ticks; layer and selection keys; tool keys; spring-loaded tool letters; type formatting keys; Pen Auto Add/Delete, #4144; smart filter rows; stale missing-tool rows corrected: Color Replacement, Red Eye and the Add/Delete Anchor Point pair are live toolbar tools, Frame landed; no percentage changed; selection-modifier and ⌥-wheel rows match their tests) · **Target:** Adobe Photoshop 2026
+> **Last reviewed:** 2026-10-21 · **Last updated:** 2026-10-21 · **Change:** minor (floating inside the app window credited separately from OS windows; previously minor: Animated Zoom: holding the Zoom tool zooms continuously, #6210; shape Density and Feather, TOOL-214-12, #5846; Pen Auto Add/Delete on the path being drawn, #6140; Show Transform Controls frames every selected layer; guide keys and clicks; menu bar from the keyboard, #4988; Crop tool Content-Aware Fill; on-canvas corner radius widgets, TOOL-214-12; Curvature Pen edits the active path; Clip Thumbnails to Layer Bounds; Pen ⇧ 45°; last selected tool restored at launch; Layers panel filter-type dropdown with Kind, Name and Mode, #5048; Free Transform box and marching ants follow the selection, #5297; History: the trash deletes the selected snapshot, rows drag onto the trash, #5324; smart filter reordering by drag; smart object perspective row corrected to done, #426; Free Transform H/V skew fields; toolbar tool shortcuts can be reassigned; ⇧-dragged guides land on ruler ticks; layer and selection keys; tool keys; spring-loaded tool letters; type formatting keys; Pen Auto Add/Delete, #4144; smart filter rows; stale missing-tool rows corrected: Color Replacement, Red Eye and the Add/Delete Anchor Point pair are live toolbar tools, Frame landed; no percentage changed; selection-modifier and ⌥-wheel rows match their tests) · **Target:** Adobe Photoshop 2026
 
 How PhotoCraft's direct manipulation compares with Photoshop 2026 (27.11.0): the toolbox, the
 handles and modifier keys of each gesture, nudging, snapping, numeric precision, navigation,
@@ -206,7 +206,8 @@ Paragraph; the rest open as in-app floating windows.
 
 | Behaviour | Status | Evidence |
 |---|---|---|
-| Panel groups float and tear off into OS windows | missing | UI-217-5, #1828, #1213 |
+| Panels and groups float and regroup inside the app window | done | craft-ui docking (`panel_docking.rs`, `window.panel.float`); Brushes joined it in 0.10.0 (#4603) |
+| Panel groups tear off into OS windows; floating groups restored at launch | missing (restore not verified) | UI-217-5 partial, #1828, #1213 |
 | Drag panels to reorder and regroup | partial | #2272, #2305 |
 | Docked resize pushes the neighbour | partial | #2573 |
 | Color panel wheel and RGB/HSB/CMYK/Lab sliders | missing | UI-217-17, #2569 |
@@ -228,6 +229,7 @@ Paragraph; the rest open as in-app floating windows.
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-21 | minor | Floating panels split into two rows: floating and regrouping inside the app window is done (#4603); separate OS windows and verified restore at launch stay open (UI-217-5 partial) |
 | 2026-10-15 | minor | Shape Density and Feather row added as done (TOOL-214-12, #5846) |
 | 2026-10-13 | minor | Menu bar from the keyboard: Alt / F10 focus, Alt+letter, underlined mnemonics (#4988) |
 | 2026-10-13 | minor | Layers panel filter row: Kind is a real dropdown with Kind, Name and Mode filters, drivable by `ui.set {layerFilter}` (#5048); row added as partial |

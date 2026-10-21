@@ -14,9 +14,9 @@ note = "docs/parity-checklist.md: all menu items live; menus.rs is_live"
 [[item]]
 id = "AUTO-219-1"
 target = "Record actions in a document-independent form (implicit layer, merged type keystrokes)"
-status = "missing"
+status = "partial"
 issue = 219
-note = "actions.rs:47 copies raw journal entries with explicit layer ids"
+note = "Layer selections record by layer name and Apply Layer Comp by the comp's name (#7181), so those steps play in any document (actions_cmds.rs, comps_cmds.rs). Other recorded steps still carry document-local ids; merged type keystrokes not done"
 
 [[item]]
 id = "AUTO-219-2"
