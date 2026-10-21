@@ -1,6 +1,6 @@
 # Localization parity
 
-> **Last reviewed:** 2026-10-12 · **Last updated:** 2026-10-13 · **Change:** minor (Spanish dynamic labels; previously minor: Serbian catalog) · **Target:** Adobe Photoshop 2026
+> **Last reviewed:** 2026-10-21 · **Last updated:** 2026-10-21 · **Change:** minor (Vietnamese merged and measured, 1,918 of 1,918 keys; key-language coverage re-measured; previously minor: Spanish dynamic labels; previously minor: Serbian catalog) · **Target:** Adobe Photoshop 2026
 
 Per-language status of PhotoCraft's UI. How catalogs work and how to add one:
 [`localization.md`](localization.md). Language notes: [Korean](localization-ko.md), [Spanish](localization-es.md),
@@ -21,8 +21,15 @@ installed per Creative Cloud install, here `en_US`). It has no Hindi, Arabic, In
 Vietnamese UI; Arabic and Hebrew users get English "Middle East" builds with the World-Ready
 composer, and its text engine handles RTL, Devanagari and Indic scripts.
 
-**Summary.** 7 of the 12 key languages at 100% of measured keys (status `partial` because of the
-engine messages), 3 absent (Hindi, Arabic, Vietnamese), plus 8 other languages. Weighted by
+**Re-measured 2026-10-21** with `cargo xtask i18n-coverage` on `main` at 68348dc: **1,918
+source keys**. English, Spanish, German, Japanese, Portuguese (Brazil) and Vietnamese translate
+1,918 of 1,918; Simplified Chinese, French, Korean and Indonesian 1,904 (99.3%). The per-row key
+counts in the table below are from 2026-10-10 except Vietnamese; the other shipped languages are
+at 100% except Polish (99.3%), and Hungarian, Serbian and Turkish catalogs now exist.
+
+**Summary (2026-10-10, Vietnamese updated 2026-10-21).** 10 of the 12 key languages (English
+included) at 99.3% or more of measured keys (status `partial` because of the engine messages), 2 absent (Hindi,
+Arabic), plus other languages. Weighted by
 speakers, ~55% ready. Remaining: 80–140 h, plus native-speaker review (recorded only for Italian,
 2026-10-12).
 
@@ -41,7 +48,7 @@ speakers, ~55% ready. Remaining: 80–140 h, plus native-speaker review (recorde
 | Japanese | `ja` | 1,608 / 1,608 (100%) | 3,356 | as above | CJK fonts, IME (Windows IME broken, #590), vertical type (tategaki); installed Japanese fonts missing from the list (#2330) | no | partial | 10–16 h |
 | German | `de` | 1,608 / 1,608 (100%) | 2,400 | as above | Latin | no | partial | 6–10 h |
 | Korean | `ko` | 1,608 / 1,608 (100%) | 2,936 | as above; terminology from Photoshop's Korean UI ([notes](localization-ko.md)) | Hangul fonts, IME | no | partial | 6–10 h |
-| Vietnamese | `vi` | 0 (0%) | – | – | Latin with stacked diacritics (shaping supported) | no | none | 12–18 h |
+| Vietnamese | `vi` | 1,918 / 1,918 (100%, 2026-10-21) | – | as above; locale selection (#2636, merged 2026-10-12, in 0.11.1) | Latin with stacked diacritics (shaping supported) | no | partial | native review |
 
 ## Other shipped languages
 
@@ -78,6 +85,7 @@ engine localization or native review is complete.
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-21 | minor | Re-measured with `cargo xtask i18n-coverage` (1,918 keys). Vietnamese merged 2026-10-12 (#2636) and at 100%; status partial pending native review. The ~55% weighted figure and hours are not recalculated |
 | 2026-10-10 | major | First version, measured from the catalogs with the `i18n-coverage` rules |
 | 2026-10-10 | minor | Right-to-left shell layout (menu bar, title, options and status bars, toolbox and dock sides) |
 | 2026-10-11 | minor | Czech dynamic status/notice and hardware text, render labels and Navigator zoom context; engine messages remain English |

@@ -1,6 +1,6 @@
 # Where PhotoCraft falls short of Photoshop
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-18 · **Change:** minor (G9: Preferences › File Handling › Save in Background takes effect, #6207, 24 of 169 preferences do nothing; G7: Content-Aware Move previews every selection the command takes, coarse then exact, TOOL-213-4 done, #6680; G4: Pattern Stamp and Background Eraser draw live, TOOL-213-7; G9: Animated Zoom pref read: holding the Zoom tool zooms continuously, #6210, prefs that do nothing 25 of 166; G2: a cancelled 24 MP Gaussian Blur job stops in at most 44 ms, P25 under its 200 ms budget, #6205; G1: generated large-file fixtures, a 4.38 GB PSB opens on Windows through io, FILE-216-2 done, #5107; G9: fill and adjustment layers copy and paste whole, #2344; G1: smart filter masks show on PSD open, Photoshop-oracle floor 188/258; G10: DPX read and write, #1049, Cineon read; G1: CMYK Hue/Saturation and Color Balance keep the black ink; G1: CMYK Posterize on the stored values, psd-tools oracle floor 242/309; G1: CMYK adjustment layers composite on the document's inks, Photoshop-oracle floor 165/258; G1: CMYK Brightness/Contrast on the inks, CMYK Threshold's luma; G1: modern Brightness/Contrast's brightness curve matches Photoshop, Photoshop-oracle floor 151/258; G1: Lab documents composite on their stored L, a, b, Photoshop-oracle floor 152/258; G1: Levels on whole levels at every step, Photoshop-oracle floor 146/258, psd-tools 238/309; G1: 32-bit Brightness/Contrast legacy, Channel Mixer, Photo Filter and Black & White tint unclipped as in Photoshop, Photoshop-oracle floor 149/258; G1: mask feathers blur with their exact variance, psd-tools oracle floor 240/309; G1: Threshold splits on Photoshop's luminosity, psd-tools oracle floor 241/309; G1: pass-through clipping base with an adjustment renders isolated, psd-tools oracle floor 240/309; G1: 16-bit Posterize as Photoshop bins it, psd-tools oracle floor 241/309; G1: Gradient Map driven by the W3C luminosity, Photoshop-oracle floor 147/258; G7: Field Blur's on-canvas pins, #3373; G4: Hue Jitter amount track, #3825 partial; G4: minimum field interaction, #3825 partial; G1: CMYK Invert, Posterize and Threshold on the inks, 16-bit Lab Invert; Photoshop-oracle floor 145/258; G11: `.atn` import maps 112 events: Select and Mask, Filter Gallery Spatter, Ripple, Crystallize, Pattern Fill layers, mask targeting, Step Backward, nudges in points, Bitmap mode; G5: Free Transform H/V skew fields; G9: toolbar tool shortcut editing; refreshed against main: G2, G5, G7, G9, G10, G13, G14, G17 items that landed; G10: DPX read and write, #1049; G4: checkbox-only Brush Settings rows; G11: Load/Save Actions `.atn` landed, AUTO-219-2 partial; G5: hold-a-key spring-loaded tools landed, #2672; G1: #2465 fixed; stale missing-tool rows corrected: Color Replacement, Red Eye and Add/Delete Anchor Point are live tools, so only Art History Brush is missing; no estimate changed) · **Target:** Adobe Photoshop 2026
+> **Last reviewed:** 2026-10-21 · **Last updated:** 2026-10-21 · **Change:** minor (2026-10-21 reassessment against 0.11.1 and `main` at 68348dc: G6 one tool left, G7 Content-Aware Fill workspace delivered, G4 brush tips and response curves removed from missing, G9 floating panels within the window credited, G14 lossy DNG done, G13 Vietnamese measured at 100%, G11 name-based steps and Batch subfolders credited, G15 face detector, G1 Photoshop acceptance evidence and G2/G3 numbers qualified; estimates are historical; earlier: G9: Preferences › File Handling › Save in Background takes effect, #6207, 24 of 169 preferences do nothing; G7: Content-Aware Move previews every selection the command takes, coarse then exact, TOOL-213-4 done, #6680; G4: Pattern Stamp and Background Eraser draw live, TOOL-213-7; G9: Animated Zoom pref read: holding the Zoom tool zooms continuously, #6210, prefs that do nothing 25 of 166; G2: a cancelled 24 MP Gaussian Blur job stops in at most 44 ms, P25 under its 200 ms budget, #6205; G1: generated large-file fixtures, a 4.38 GB PSB opens on Windows through io, FILE-216-2 done, #5107; G9: fill and adjustment layers copy and paste whole, #2344; G1: smart filter masks show on PSD open, Photoshop-oracle floor 188/258; G10: DPX read and write, #1049, Cineon read; G1: CMYK Hue/Saturation and Color Balance keep the black ink; G1: CMYK Posterize on the stored values, psd-tools oracle floor 242/309; G1: CMYK adjustment layers composite on the document's inks, Photoshop-oracle floor 165/258; G1: CMYK Brightness/Contrast on the inks, CMYK Threshold's luma; G1: modern Brightness/Contrast's brightness curve matches Photoshop, Photoshop-oracle floor 151/258; G1: Lab documents composite on their stored L, a, b, Photoshop-oracle floor 152/258; G1: Levels on whole levels at every step, Photoshop-oracle floor 146/258, psd-tools 238/309; G1: 32-bit Brightness/Contrast legacy, Channel Mixer, Photo Filter and Black & White tint unclipped as in Photoshop, Photoshop-oracle floor 149/258; G1: mask feathers blur with their exact variance, psd-tools oracle floor 240/309; G1: Threshold splits on Photoshop's luminosity, psd-tools oracle floor 241/309; G1: pass-through clipping base with an adjustment renders isolated, psd-tools oracle floor 240/309; G1: 16-bit Posterize as Photoshop bins it, psd-tools oracle floor 241/309; G1: Gradient Map driven by the W3C luminosity, Photoshop-oracle floor 147/258; G7: Field Blur's on-canvas pins, #3373; G4: Hue Jitter amount track, #3825 partial; G4: minimum field interaction, #3825 partial; G1: CMYK Invert, Posterize and Threshold on the inks, 16-bit Lab Invert; Photoshop-oracle floor 145/258; G11: `.atn` import maps 112 events: Select and Mask, Filter Gallery Spatter, Ripple, Crystallize, Pattern Fill layers, mask targeting, Step Backward, nudges in points, Bitmap mode; G5: Free Transform H/V skew fields; G9: toolbar tool shortcut editing; refreshed against main: G2, G5, G7, G9, G10, G13, G14, G17 items that landed; G10: DPX read and write, #1049; G4: checkbox-only Brush Settings rows; G11: Load/Save Actions `.atn` landed, AUTO-219-2 partial; G5: hold-a-key spring-loaded tools landed, #2672; G1: #2465 fixed; stale missing-tool rows corrected: Color Replacement, Red Eye and Add/Delete Anchor Point are live tools, so only Art History Brush is missing; no estimate changed) · **Target:** Adobe Photoshop 2026
 
 Every known shortfall against Photoshop 2026 (27.11.0), one entry each, ranked by user impact
 on the way to beta. This is the work list agents pick from: take the highest-ranked entry that
@@ -13,25 +13,28 @@ No gap blocks alpha: the [alpha gate](roadmap.md#alpha-gate) passes. "Blocks bet
 stands between alpha and beta.
 
 Hours are Opus 5.5 agent-hours, one agent working sequentially, including tests. **Human** marks
-what an agent can't finish alone.
+what an agent can't finish alone. The estimates are from 2026-10-10 and are historical: the
+2026-10-21 [reassessment](../ROADMAP.md#reassessment-2026-10-21) found several of them still
+counting delivered work, and none has been rebuilt yet. Where an entry's scope shrank, its
+estimate is marked as not rebuilt rather than replaced with a guess.
 
 ## Summary
 
 | # | Gap | Kind | Impact | Estimate | Parity doc |
 |---|---|---|---|---:|---|
-| G1 | PSD fidelity and Photoshop acceptance | file format | blocks beta | 150–250 h | [file-format-parity](file-format-parity.md) |
-| G2 | Interactive performance | performance | blocks beta | 200–350 h | [scorecard](scorecard.md#performance) |
-| G3 | User-reported bug backlog | stability, UI | blocks beta | 250–400 h | [target-app-parity](target-app-parity.md) |
-| G4 | Brush feel | UI / painting | high | 100–180 h | [brush-parity](brush-parity.md) |
+| G1 | PSD fidelity and Photoshop acceptance | file format | blocks beta | 150–250 h (historical) | [file-format-parity](file-format-parity.md) |
+| G2 | Interactive performance | performance | blocks beta | 200–350 h (historical) | [scorecard](scorecard.md#performance) |
+| G3 | User-reported bug backlog | stability, UI | blocks beta | 250–400 h (historical) | [target-app-parity](target-app-parity.md) |
+| G4 | Brush feel | UI / painting | high | 100–180 h (historical; includes delivered work) | [brush-parity](brush-parity.md) |
 | G5 | Transform, handles and modifiers | UI | high | 60–110 h | [ui-parity](ui-parity.md) |
-| G6 | Missing tools (12) | features | high | 60–100 h | [ui-parity](ui-parity.md#tools) |
-| G7 | Workspaces shown as parameter dialogs | features | high | 80–140 h | [target-app-parity](target-app-parity.md#feature-areas) |
+| G6 | Missing tool (Art History Brush) | features | medium | 2–9 h (one tool, per the calibration) | [ui-parity](ui-parity.md#tools) |
+| G7 | Workspaces shown as parameter dialogs | features | high | 80–140 h (historical; includes the delivered Content-Aware Fill workspace) | [target-app-parity](target-app-parity.md#feature-areas) |
 | G8 | Type depth | features | high | 120–200 h | [target-app-parity](target-app-parity.md#feature-areas) |
 | G9 | Panels, preferences and workspace | UI | medium-high | 150–250 h | [ui-parity](ui-parity.md#panels-and-workspace) |
 | G10 | Missing and partial file formats | file format | medium | 120–220 h | [file-format-parity](file-format-parity.md) |
 | G11 | Actions and scripting | ecosystem | medium | 120–200 h | [target-app-parity](target-app-parity.md) |
 | G12 | Pen tablets and display hardware | hardware | medium | 80–150 h | [hardware-parity](hardware-parity.md) |
-| G13 | Languages: Hindi, Arabic, Vietnamese, RTL, engine messages | localization | medium | 80–140 h + human | [localization-parity](localization-parity.md) |
+| G13 | Languages: Hindi, Arabic, RTL, engine messages, catalog review | localization | medium | 80–140 h + human (historical) | [localization-parity](localization-parity.md) |
 | G14 | Camera Raw depth | features, formats | medium | 120–200 h | [file-format-parity](file-format-parity.md#camera-raw) |
 | G15 | AI and generative features | AI | medium (high for some users) | 300–600 h + human | [target-app-parity](target-app-parity.md) |
 | G16 | Plug-in compatibility (.8BF, UXP) | ecosystem | medium | 250–450 h + human | [target-app-parity](target-app-parity.md) |
@@ -54,6 +57,17 @@ what an agent can't finish alone.
   blank (#1764), perspective placed layers flattened (#579, fixed by #426), PSB > 4 GB fails on Windows (#375; a generated 4.38 GB PSB opens, saves and re-opens
   through io on Windows, io tests/large_files.rs, 2026-10-13).
   No test opens our exports in a third-party editor (FILE-216-4).
+- **Status of the cited reports (2026-10-21):** #2469 was closed as a duplicate, which is not
+  evidence of a fix. #1281 is still open and doesn't say enough to establish the exact failure.
+  Neither is a canonical case; this entry should link reproducible cases and the result of
+  opening each export in Photoshop.
+- **Released versus merged (2026-10-21):** Smart Filter mappings (FILE-215-2) are 14 filters plus
+  a Camera Raw subset in 0.11.1, and 41 filters plus further adjustment and filter mappings on
+  `main`. A mapping does not show that Photoshop accepts the file. The large-file fixtures
+  (#5107) are on `main`; the largest cases are opt-in and are not run in ordinary CI.
+- **Closes when:** representative exports reopen in Photoshop, colour mode, bit depth and Smart
+  Object cases are covered, and any unresolved destructive-save failures are listed. Internal
+  save and reopen success can't substitute for that check.
 - **Impact:** PSD is the format professionals exchange. Beta requires it to be reliable.
 - **Estimate:** 150–250 h. **Human:** opening exports in Photoshop on the owner's Mac (or a
   scripted check there) is the only real oracle.
@@ -65,23 +79,31 @@ what an agent can't finish alone.
   (#2914).
 - **Evidence:** `Tool` enum (`crates/ui-egui/src/state.rs`) against the 67 `<tool>` entries of
   Photoshop's `Default Keyboard Shortcuts.kys` plus Remove, Triangle and Curvature Pen.
-- **Impact:** users look for them by name and shortcut; several are daily tools for designers.
-- **Estimate:** 60–100 h (2–9 h each, per the calibration).
+- **Impact:** users look for tools by name and shortcut. With one tool left, the remaining work
+  here is Art History Brush plus specific behavioural gaps in existing tools, which belong to
+  the entries that own them (G4, G5, G7).
+- **Estimate:** 2–9 h for Art History Brush (one checklist item, per the calibration); the
+  60–100 h of 2026-10-10 covered twelve tools.
 
 ### G7. Workspaces shown as parameter dialogs
+- **Delivered (in 0.11.1):** the Content-Aware Fill workspace (TOOL-214-15, #2376): Sampling
+  Brush, Lasso edits to the fill area, background preview, rotation/scale/mirror, output to the
+  current, a new or a duplicate layer, and Apply repeated without closing. What stays open is
+  fill fidelity or interaction gaps we can demonstrate against Photoshop.
 - **Missing:** Select and Mask workspace layout
-  (TOOL-214-1, Refine Hair #2671; its view modes preview live since #1754, Refine Edge Brush #2972); Content-Aware Fill workspace with a paintable sampling area
-  (TOOL-214-15); Vanishing Point plane editor (TOOL-214-14). Content-Aware Move's live preview
+  (TOOL-214-1, Refine Hair #2671; its view modes preview live since #1754, Refine Edge Brush #2972);
+  Vanishing Point plane editor (TOOL-214-14). Content-Aware Move's live preview
   of the result is done (TOOL-213-4, 2026-10-16, #6680: every selection the command takes, coarse
   first for large ones, then the exact result), as are Transform On Drop and Content-Aware Scale
   through the transform box (TOOL-214-7).
   Blur Gallery: Field, Iris, Tilt-Shift and Spin Blur are edited on the image with Photoshop's pins
   and handles (2026-10-11, #3373); Tilt-Shift has one band (the engine takes one), and Path Blur
   (#1759) is still a parameter dialog.
-- **Evidence:** scorecard rows above, all partial or missing.
+- **Evidence:** scorecard rows above; TOOL-214-15 done, the others partial or missing.
 - **Impact:** these are the tools retouchers and compositors use daily; a slider dialog is not a
   substitute.
-- **Estimate:** 80–140 h.
+- **Estimate:** 80–140 h (2026-10-10, historical; it still includes the Content-Aware Fill
+  workspace and has not been rebuilt).
 
 ### G8. Type depth
 - **Missing:** type on a path beyond rigid glyph placement (TYPE-218-1 partial, #4365),
@@ -92,7 +114,7 @@ what an agent can't finish alone.
   (TYPE-218-6, #206), variable-font axes (TYPE-218-4, #2985), Warp on live type without a
   rasterize prompt, as in Photoshop (TYPE-218-9, #3004), and the live Warp Text preview that opens
   with the layer's warp (TYPE-218-7, #2689).
-- **Evidence:** scorecard Type: 5 done, 3 partial, 1 missing. 2026-10-11: 2/3/4/5 clicks select
+- **Evidence:** scorecard Type on `main`: 5 done, 3 partial, 1 missing (0.11.1's scorecard: 4 / 3 / 2). The Type area percentage in target-app-parity.md has not been re-graded from this. 2026-10-11: 2/3/4/5 clicks select
   word, line, paragraph and all text, with tests (TYPE-218-8, #3493). The Type tool froze the app for
   60 s on one macOS machine (#2518).
 - **Estimate:** 120–200 h.
@@ -101,8 +123,12 @@ what an agent can't finish alone.
 - **2026-10-13 evidence:** Batch supports [output naming templates](batch-naming.md) using
   `{name}`, `{serial}` and a captured UTC `{date}`, with a starting serial number. Colliding
   names remain errors; custom output names cannot replace inputs. AUTO-219-5 stays partial.
-- **Missing:** document-independent action recording (AUTO-219-1), Batch recursion, open-document inputs, progress/cancel and an error-log file
-  (AUTO-219-5), ExtendScript/UXP compatibility. `.atn` steps outside the
+- **Done:** layer selections record by layer name, and Apply Layer Comp by the comp's name
+  (#7181), so those steps play in any document; Batch and Image Processor take subfolders with
+  Include All Subfolders (#3753, 0.10.0).
+- **Missing:** document-independent recording for the other steps (AUTO-219-1, partial),
+  open-document inputs, progress/cancel and an error-log file (AUTO-219-5, partial),
+  ExtendScript/UXP compatibility. `.atn` steps outside the
   mapped events (paths, scripts, Generative Fill, Filter Gallery effects other than Spatter,
   Duplicate Layers into a new document, Bitmap halftone screens…) load as kept Photoshop steps
   that fail at playback by name.
@@ -129,7 +155,9 @@ what an agent can't finish alone.
   (AGENTS.md forbids JS in the app).
 
 ### G14. Camera Raw depth
-- **Missing:** CR3 (detected, unsupported), compressed RAF, lossy DNG (FILE-215-11), .xmp
+- **Done:** lossy (JPEG-compressed, compression 34892) DNG decodes since 0.10.0 (#5112,
+  `crates/raw/src/sensor.rs`); FILE-215-11 is partial for the rest of its row.
+- **Missing:** CR3 (detected, unsupported), compressed RAF, highlight modes, .xmp
   sidecars, masking and calibration in the Camera Raw dialog, per-camera colour for non-DNG
   cameras, lens profiles.
 - **Evidence:** `crates/raw/src/lib.rs:228` (CR3), scorecard FILE-215-11/12, #50.
@@ -145,8 +173,12 @@ what an agent can't finish alone.
 
 ### G15. AI and generative features
 - **Missing:** Generative Fill and Expand, Generative Upscale, Neural Filters, Sky Replacement,
-  Super Zoom, ML Select Subject/Sky. There is no ML runtime (AUTO-219-7). Classical substitutes
-  exist (GrabCut/max-flow selection, Remove tool by non-local patch completion).
+  Super Zoom, ML Select Subject/Sky, complete Face-Aware Liquify. There is no general ML runtime
+  (AUTO-219-7). Classical substitutes exist (GrabCut/max-flow selection, Remove tool by
+  non-local patch completion).
+- **Done:** an embedded face detector (libfacedetection's CNN in pure Rust, `crates/algo/src/faces`)
+  behind `image.detectFaces`, shipped in 0.10.0 (#4513). It is one bundled model for one task,
+  not a general ML backend.
 - **Evidence:** Photoshop's `Required/UXP` ships the Neural Filters gallery and its `.kys` has
   a Neural Filters taskspace; users ask for local models (#2313, #1996, #2682).
 - **Estimate:** 300–600 h. **Human:** owner decision #41 (model licences, local vs remote).
@@ -160,11 +192,17 @@ what an agent can't finish alone.
 ## UI / UX gaps
 
 ### G3. User-reported bug backlog
-- **Missing:** fixes for 579 open issues (2026-10-10), filed mostly by 0.5/0.6 users. By title:
+- **2026-10-21:** a query returned 1,748 open issues, excluding pull requests (579 on 2026-10-10,
+  953 on 2026-10-13). That count includes feature requests and other reports, so it measures
+  neither the rate of regressions nor the number of unresolved release blockers. Beta criteria
+  should rest on severity, data loss, reproducibility and supported workflows instead of a
+  target count such as "under 100 open".
+- **Missing (2026-10-10 breakdown):** fixes for 579 open issues, filed mostly by 0.5/0.6 users. By title:
   ~150 UI/panels/menus/shortcuts, 94 file/format, 87 layers, 54 painting, 54 selection,
   46 type, 41 performance, 34 transform/move, 25 Linux/Wayland, 24 Windows, 20 macOS.
 - **Impact:** each is a place where a Photoshop user hits something different from what they
-  expect; together they are why ready-for-real-work is ~45% while breadth is ~76%.
+  expect; on 2026-10-10 they were the main reason the ready-for-real-work estimate (~45%) sat
+  well below breadth (~76%).
 - **Estimate:** 250–400 h (many overlap with other gaps; count each fix once).
 
 ### G4. Brush feel
@@ -182,10 +220,13 @@ what an agent can't finish alone.
   interpolation and smoothing problems (#2138), edge falloff (#2149), pixelated cursor vs
   Photoshop (#1433), brush rotation not driven by pen rotation (#1301); no live preview for the
   Mixer Brush yet (TOOL-213-7, in PR #3627; the other brush tools draw live, Spot Healing and Remove
-  compute on release as in Photoshop); no image file as a brush tip (TOOL-213-12); per-control pressure
-  curves (TOOL-213-11); 4 of Photoshop's symmetry modes.
+  compute on release as in Photoshop); 4 of Photoshop's symmetry modes.
+- **Done (0.10.0):** an image file as a brush tip (TOOL-213-12, #3279) and a response curve per
+  dynamic control (TOOL-213-11, #3294), on top of the global pen pressure curve (#2195). Pressure,
+  smoothing, latency and tablet feel are tracked separately above.
 - **Detail:** [`brush-parity.md`](brush-parity.md).
-- **Estimate:** 100–180 h. **Human:** checking feel on real tablets.
+- **Estimate:** 100–180 h (2026-10-10, historical; it still counts the brush tips and response
+  curves and has not been rebuilt). **Human:** checking feel on real tablets.
 
 ### G5. Transform, handles and modifiers
 - **Missing:** the full interpolation list; blend mode/opacity edits during
@@ -210,7 +251,9 @@ what an agent can't finish alone.
   with saved bindings, matching toolbar hints and regression coverage (`ui-egui/src/tool_shortcuts.rs`).
 - **Missing:** 24 of 171 preferences do nothing (scorecard prefs audit, 2026-10-15: Save in
   Background now takes effect, #6207); panel groups can't
-  float or tear off into OS windows (UI-217-5, #1828, #1213, #2305); Color panel lacks wheel and
+  tear off into separate OS windows, and restoring floating groups at launch is not verified
+  (UI-217-5 partial, #1828, #1213, #2305; inside the app window, panels float and regroup through
+  the shared docking, which Brushes joined in 0.10.0, #4603); Color panel lacks wheel and
   slider modes (UI-217-17, #2569); more themes (UI-217-11, #2661); a single pixel layer
   copies without its mask and styles (UI-217-23; fill and adjustment layers copy whole, #2344); tool-specific context menus beyond brushes, selections and Pen
   ([context-menu-parity.md](context-menu-parity.md)); Libraries, Comments, Contextual Task Bar
@@ -229,6 +272,11 @@ what an agent can't finish alone.
   pass that puts a Background's alpha back now runs per tile in parallel and checks for
   cancellation, and column-strip box passes check between passes. The uncancelled job is
   ~40% faster (p50 about 690 → 400 ms). #6205.
+- **Baseline age (2026-10-21):** every number below comes from the 2026-10-05 baseline, taken
+  before a lot of the optimisation work in this entry. It can't establish today's performance,
+  and the individual speedups recorded here don't show that the remaining budgets pass. The
+  entry closes on fresh measurements on named hardware for brushes, transforms, layer edits,
+  large documents, background work and cancellation.
 - **Missing:** 22 of 25 budgeted scenarios are over budget (baseline 2026-10-05, a heavily
   loaded machine): layer move with styles 321 ms p50 against 25 ms, opacity change 276 ms
   against 20 ms, paste 12 MP 1.2 s against 100 ms, layer move on 15000×10000 16-bit 2.7 s,
@@ -263,8 +311,11 @@ what an agent can't finish alone.
 
 ## Localization gaps
 
-### G13. Hindi, Arabic, Vietnamese, RTL and engine messages
-- **Missing:** catalogs for Hindi, Arabic and Vietnamese (3 of the 12 key languages); right-to-
+### G13. Hindi, Arabic, RTL, engine messages and catalog review
+- **Done:** Vietnamese, merged 2026-10-12 (#2636) with locale selection and in 0.11.1;
+  `cargo xtask i18n-coverage` on 2026-10-21 measures 1,918 of 1,918 UI keys. Not reviewed by a
+  native speaker.
+- **Missing:** catalogs for Hindi and Arabic (2 of the 12 key languages); right-to-
   left UI layout; Devanagari fallback fonts (Thai #1909 and Khmer, Lao and Myanmar #3259 landed); engine error and status messages in
   English in every language; browser-locale detection and CJK fonts on the web; Japanese IME on
   Windows (#590); installed Japanese fonts missing from the font list (#2330); Arabic layer names
@@ -287,6 +338,7 @@ what an agent can't finish alone.
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-21 | minor | Reassessment against 0.11.1 and `main` at 68348dc: G6 is one tool (estimate 2–9 h); G7 Content-Aware Fill workspace delivered (TOOL-214-15 done); G4 brush tips and per-control curves moved to done; G9 floating inside the window credited (UI-217-5 partial); G14 lossy DNG done (FILE-215-11 partial); G13 Vietnamese measured at 100% and renamed; G11 name-based layer and comp steps and Batch subfolders (AUTO-219-1 partial); G15 face detector; G1 cited reports and released-versus-merged mappings; G2 baseline age; G3 open-issue count 1,748 with its limits; summary estimates marked historical |
 | 2026-10-15 | minor | G1 / #5972 A1: render only provably constant-RGB `GdFl` noise fills; variable noise synthesis remains open |
 | 2026-10-18 | minor | G9: with no selection, Copy takes fill and adjustment layers whole and Paste recreates them (#2344); UI-217-23 stays partial (a single pixel layer copies its pixels only); estimate unchanged |
 | 2026-10-15 | minor | G2: a cancelled 24 MP Gaussian Blur job stops within 44 ms max (P25, budget 200 ms; was about 400 ms), the uncancelled job about 40% faster; #6205 |
