@@ -5,6 +5,7 @@
 
 mod corpus;
 mod corpus_pins;
+mod docs_claims;
 mod docs_sync;
 mod i18n_coverage;
 mod ico;
@@ -47,6 +48,9 @@ commands:
                   refill the <!-- fact:KEY --> values in ROADMAP.md, AGENTS.md and docs/*.md from the
                   scorecard inputs, i18n coverage and scorecard/measured.toml, and check that no prose
                   states a checklist status that scorecard/*.toml contradicts (--facts: list the keys)
+  docs-claims [--base REF] [--out PATH]
+                  brief for reviewing a diff against the progress docs: scorecard rows citing changed
+                  files, rows the diff edits, docs-sync result (default target/docs-claims/context.md)
   version [set X.Y.Z[-pre]]
                   print the workspace version, or set it (Cargo.toml + Cargo.lock)
   ico <out.ico> <in.png>...
@@ -68,6 +72,7 @@ fn main() -> ExitCode {
         Some("perf") => perf::run(&root(), &rest),
         Some("scorecard") => scorecard::run(&root(), &rest),
         Some("docs-sync") => docs_sync::run(&root(), &rest),
+        Some("docs-claims") => docs_claims::run(&root(), &rest),
         Some("version") => version::run(&root(), &rest),
         Some("ico") => ico::run(&rest),
         Some("-h" | "--help" | "help") | None => {

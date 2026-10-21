@@ -1,0 +1,118 @@
+# Progress-docs review: on each pull request, an agent checks whether the change leaves a
+# statement in the progress docs (ROADMAP.md, docs/*-parity.md, docs/gaps.md, scorecard/*.toml)
+# untrue, and fails the check with specific edits when it does. `cargo xtask docs-sync --check`
+# in ci.yml covers quoted numbers and checklist statuses; this covers prose about behaviour.
+#
+# Needs the repository secret ANTHROPIC_API_KEY. Without it (pull requests from forks, or a
+# repository that hasn't set it up) the job skips. A maintainer can accept a pull request's docs
+# as they are by adding the `docs-claims-ok` label.
+name: docs-claims
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: docs-claims-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Decide whether to run
+        id: gate
+        env:
+          HAS_KEY: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+          ACCEPTED: ${{ contains(github.event.pull_request.labels.*.name, 'docs-claims-ok') }}
+        run: |
+          if [ "$ACCEPTED" = "true" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Skipped: a maintainer added the docs-claims-ok label." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$HAS_KEY" != "true" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Skipped: no ANTHROPIC_API_KEY secret (a fork, or not configured)." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+        with:
+          fetch-depth: 0
+
+      - uses: dtolnay/rust-toolchain@stable
+        if: steps.gate.outputs.run == 'true'
+
+      - uses: Swatinem/rust-cache@v2
+        if: steps.gate.outputs.run == 'true'
+
+      # The brief and the instructions are prepared before the agent runs. The instructions come
+      # from the base branch, so a pull request can't rewrite its own reviewer's brief.
+      - name: Prepare the brief
+        if: steps.gate.outputs.run == 'true'
+        env:
+          BASE: origin/${{ github.base_ref }}
+        run: |
+          cargo xtask docs-claims --base "$BASE"
+          git show "$BASE:.github/docs-claims/prompt.md" > target/docs-claims/prompt.md 2>/dev/null \
+            || cp .github/docs-claims/prompt.md target/docs-claims/prompt.md
+          rm -f target/docs-claims/verdict target/docs-claims/review.md
+
+      # Read-only tools plus Write for the two output files; no shell, no GitHub access. The
+      # workflow, not the agent, posts the comment and sets the result.
+      - name: Review the docs against the change
+        if: steps.gate.outputs.run == 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Follow the instructions in target/docs-claims/prompt.md exactly. The base branch is
+            ${{ github.base_ref }}; the brief is target/docs-claims/context.md.
+          claude_args: --allowedTools "Read,Glob,Grep,Write" --max-turns 40
+
+      - name: Post the findings and set the result
+        if: steps.gate.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          verdict="$(tr -d '[:space:]' < target/docs-claims/verdict 2>/dev/null || true)"
+          body=target/docs-claims/review.md
+          marker='<!-- docs-claims -->'
+          # One comment per pull request, found by its marker and updated in place.
+          post() {
+            { echo "$marker"; cat "$body"; printf '%s\n\n---\n_Progress-docs review (docs-claims workflow)_\n' "$1"; } > "$body.post"
+            id="$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate \
+              --jq ".[] | select(.body | startswith(\"$marker\")) | .id" | tail -n 1)"
+            if [ -n "$id" ]; then
+              gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -F body=@"$body.post" > /dev/null
+            elif [ "$2" = "create" ]; then
+              gh pr comment "$PR" --body-file "$body.post"
+            fi
+          }
+          case "$verdict" in
+            ok)
+              echo "The progress docs still match this change." >> "$GITHUB_STEP_SUMMARY"
+              # Replace an earlier findings comment, if there is one, so it doesn't stay up.
+              if [ -s "$body" ]; then post "" update; fi
+              ;;
+            update-needed)
+              post $'\n\nUpdate the docs in this pull request, or a maintainer can add the `docs-claims-ok` label to accept them as they are.' create
+              cat "$body" >> "$GITHUB_STEP_SUMMARY"
+              echo "::error::This change leaves statements in the progress docs untrue; see the pull request comment."
+              exit 1
+              ;;
+            *)
+              # An outage or a failed run is not a finding: report it and don't block the merge.
+              echo "::warning::The docs review produced no verdict; nothing was checked."
+              echo "The docs review produced no verdict (an API error, or the run stopped early)." >> "$GITHUB_STEP_SUMMARY"
+              ;;
+          esac

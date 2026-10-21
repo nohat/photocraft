@@ -92,7 +92,10 @@ Priorities: important infrastructure first, then low-hanging parity, then the lo
    first release with its current status). When you change a row's status, delete its
    `released`: the next `cargo xtask version set X.Y.Z` stamps it. Estimates (percentages, hours)
    are judgement, not facts: date them, and when their evidence moves, say so rather than
-   leaving them to read as current.
+   leaving them to read as current. On every pull request the `docs-claims` workflow has an agent check
+   whether the change leaves prose in the progress docs untrue (`.github/docs-claims/prompt.md`
+   says exactly what it checks); fix what it reports in the same PR, or a maintainer adds the
+   `docs-claims-ok` label to accept the docs as they are.
 1. **Check `docs/scorecard.md`** before picking work: each area's `missing` and `partial` rows,
    the performance scenarios that are over budget or not measurable yet, and the count of
    settings that do nothing. Its numbers are measured; prefer them to estimates.
@@ -116,6 +119,9 @@ cargo xtask scorecard       # if you moved a number: flip the checklist row in s
                             # in perf/budgets.toml); commit the regenerated docs/scorecard.md (CI checks it)
 cargo xtask docs-sync       # if you touched scorecard/, a corpus floor, translations or a progress doc: refills
                             # the <!-- fact --> values and checks prose status claims against scorecard/*.toml
+cargo xtask docs-claims     # before opening a PR that changes behaviour: lists the scorecard rows citing the files you
+                            # changed, so you can update them and the progress docs; the docs-claims workflow
+                            # runs the same brief through an agent on the PR and fails with specific edits
 cargo xtask perf --quick    # if you touched a hot path; `cargo xtask perf --update-baseline` publishes a full run
 cargo xtask test-corpus     # if you touched psd, io, codecs, compose, gpu, text or format (or: --changed decides)
 ```
