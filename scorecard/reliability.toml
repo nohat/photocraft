@@ -9,24 +9,32 @@ order = 7
 id = "REL-1"
 target = "panic_hunt fuzzes every command with adversarial params"
 status = "done"
+released = "0.3.0"
+checked = 2026-10-05
 note = "engine/tests/panic_hunt.rs: every command, own thread, 4 s timeout; #[ignore], run in the gate"
 
 [[item]]
 id = "REL-2"
 target = "Every workspace crate carries the never-crash deny(clippy::unwrap_used, ...) attribute"
 status = "done"
+released = "0.3.0"
+checked = 2026-10-05
 note = "Counted automatically above (crate roots under crates/ and apps/); testkit gained it in #221"
 
 [[item]]
 id = "REL-3"
 target = "The app catches escaped panics around command dispatch and import/export"
 status = "done"
+released = "0.6.0"
+checked = 2026-10-09
 note = "a_panic_in_a_command_... runs the test-only `test.panic` spec through Session::execute and asserts Err plus an unchanged document (engine jobs_tests.rs); the worker guard is covered by a_panic_in_the_worker_...; crash_guard.rs guard_turns_a_panic_into_an_error covers import/export (apps/photocraft)"
 
 [[item]]
 id = "REL-4"
 target = "Atomic save (temp, fsync, rename) for every document write"
 status = "done"
+released = "0.4.0"
+checked = 2026-10-07
 issue = 203
 note = "photocraft_format::atomic_write (format/src/atomic.rs, #230): same-dir temp, sync_all, rename with Windows PermissionDenied retry, Unix dir fsync; every document write site routes through it and format/src/atomic/tests.rs failure-injects write, rename and read-only-dir errors"
 
@@ -34,6 +42,8 @@ note = "photocraft_format::atomic_write (format/src/atomic.rs, #230): same-dir t
 id = "REL-212-1"
 target = "Fallible allocation for paste/erase/fill/transform/save/import, clear out-of-memory error"
 status = "partial"
+released = "0.7.0"
+checked = 2026-10-10
 issue = 212
 note = "Raster region/tile buffers, paste/erase/fill/transform and warp output use fallible reservations; save/import boundaries preserve existing state, but encoder/decoder internals still need a broader fallible-allocation audit"
 
@@ -41,6 +51,8 @@ note = "Raster region/tile buffers, paste/erase/fill/transform and warp output u
 id = "REL-212-2"
 target = "Export switches to PSB when the estimated file size exceeds 2 GB"
 status = "done"
+released = "0.3.0"
+checked = 2026-10-06
 issue = 212
 note = "PSD export uses checked size estimates for raster, masks, channels, and retained metadata"
 
@@ -48,5 +60,7 @@ note = "PSD export uses checked size estimates for raster, masks, channels, and 
 id = "REL-212-3"
 target = "Tests: an allocation-limit injection makes each command Err with the document unchanged"
 status = "partial"
+released = "0.7.0"
+checked = 2026-10-10
 issue = 212
 note = "Engine failpoint tests cover paste, erase, fill, transform, import and save transaction boundaries; codec-level allocator failure coverage remains open"

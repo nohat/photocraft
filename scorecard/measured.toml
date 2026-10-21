@@ -1,0 +1,30 @@
+# Numbers measured by hand, each in one place with its date and source.
+#
+# Prose docs quote them as <!-- fact:KEY -->VALUE<!-- /fact --> and `cargo xtask docs-sync` keeps
+# the quotes equal to this file (`<KEY>.measured` gives the date). Anything the tree can count
+# (corpus floors, checklist counts, prefs, menus, translation coverage) is computed instead and
+# can't be set here. When you re-measure, change the value, the date and, if it moved, the source.
+
+[[fact]]
+key = "tools.inventory"
+value = "67 of 68"
+measured = 2026-10-21
+source = "Tool enum (crates/ui-egui/src/state.rs) against Photoshop 27.11.0's 67 Default Keyboard Shortcuts.kys tools plus Remove, Triangle and Curvature Pen; see target-app-parity.md › How to re-measure"
+
+[[fact]]
+key = "tools.missing"
+value = "Art History Brush"
+measured = 2026-10-21
+source = "same comparison as tools.inventory"
+
+[[fact]]
+key = "issues.open"
+value = "1,748"
+measured = 2026-10-21
+source = "GitHub search `repo:storytold/photocraft is:issue is:open` (pull requests excluded); includes feature requests and other reports"
+
+[[fact]]
+key = "photoshop.version"
+value = "27.11.0"
+measured = 2026-10-10
+source = "installed Adobe Photoshop 2026 bundle, Info.plist"

@@ -71,7 +71,7 @@ Triangle and Curvature Pen (minus legacy Rounded Rectangle and Targeted Adjustme
 | Options bar H/V skew fields | done | `transform_tool.rs` (`Parts`, `skew_about_pivot`): W/H, angle and skew read as Photoshop decomposes the box; `skew_fields_lean_the_box_about_the_reference_point` |
 | Interpolation in the options bar | partial | Bicubic/Bilinear/Nearest; no Bicubic Smoother/Sharper/Automatic, Preserve Details |
 | Commit/cancel buttons in the options bar | missing | #2442 |
-| Right-click menu during transform (Scale, Rotate, Skew, Distort, Perspective, Warp, flips, rotates) | missing | TOOL-214-5 |
+| Right-click menu during transform (Scale, Rotate, Skew, Distort, Perspective, Warp, flips, rotates) | done | TOOL-214-5 |
 | Arrow keys nudge the box 1 px, ⇧ 10 px | done | `move_mods.rs` |
 | Preview keeps layer order, blend mode and mask | partial | mask yes (BUG-205-2); order/blend not (#2439) |
 | Preview clipped to the canvas, follows edits while open | done | #2201, #2099 |
@@ -79,7 +79,7 @@ Triangle and Curvature Pen (minus legacy Rounded Rectangle and Targeted Adjustme
 | Blend mode / opacity edits while transforming | missing | #1384 |
 | Locked layer refused before the drag | missing | fails only at commit (#2585) |
 | Transform a copy (⌥⌘T), step and repeat (⌥⇧⌘T) | done | 2026-10-07 |
-| Transform a targeted alpha channel | missing | BUG-207-4 |
+| Transform a targeted alpha channel | done | BUG-207-4 |
 | Smart object perspective (non-affine) | done | FILE-215-6; #579 fixed by #426: Distort / Perspective keep a projective placement, re-rendered from the source, read and written as the PSD `nonAffineTransform` |
 | Type-layer transform while editing (⌘ held), no ⌘-corner distort on type | done | `ui-design.md` |
 | Puppet Warp mesh follows the outline | missing | block grid (TOOL-214-6) |
@@ -94,7 +94,7 @@ Triangle and Curvature Pen (minus legacy Rounded Rectangle and Targeted Adjustme
 | Arrow nudge of path points with Direct Selection | missing | no arrow handling in `direct_select.rs` |
 | ⌘-arrow nudges the layer from any tool | missing | #2474 |
 | ⌥-drag duplicates, ⇧ constrains to 45° | done | `move_mods.rs` |
-| Auto-Select with hover outline, box-select layers, double-click fit | missing | TOOL-214-4 |
+| Auto-Select with hover outline, box-select layers, double-click fit | partial | TOOL-214-4 |
 | Auto-Select bounding box and snapping follow the picked layer | partial | follow the previous layer (#2666) |
 | Several layers selected (⇧-click adds, box-select): Show Transform Controls frames them all, with every selected shape's outline | partial: the shared frame has no handles, since Free Transform works on one layer (`canvas.rs` `transform_controls_layers`, `several_selected_layers_share_one_frame_without_handles`; `move_auto_select_tests.rs`) | |
 | ⌘-drag temporary Move shows the box and snaps | partial | #2681 |
@@ -143,7 +143,7 @@ Triangle and Curvature Pen (minus legacy Rounded Rectangle and Targeted Adjustme
 | Crop shield, Show Cropped Area (H) | done | TOOL-214-22 |
 | Default mode: the image turns and moves behind an upright box; Auto Center Preview; Use Classic Mode | done | TOOL-214-23 |
 | W × H × Resolution with units, built-in size presets, Front Image | done | TOOL-214-9 (`crop_size.rs`) |
-| Saved custom crop presets | missing | TOOL-214-9 |
+| Saved custom crop presets | done | TOOL-214-9 |
 | Fill: Content-Aware Fill: a turned or extending crop fills the uncovered corners and strips from the image (each piece with its own sampling window), on the Background or else the active pixel layer, in the crop's one undo step; Generative Expand not offered | done | `tests/crop_content_aware.rs`, `crop_ui.rs::commit_passes_the_fill_choice` (#3823, 2026-10-12) |
 | Delete Cropped Pixels off | partial | |
 
@@ -215,11 +215,11 @@ Paragraph; the rest open as in-app floating windows.
 | Command palette with recents | done | UI-217-7 |
 | Menu bar from the keyboard: Alt / F10 focus the bar, ← → ↓ ↩ drive it, Alt+letter opens a menu, underlined mnemonics run items | done | `menu_keys.rs`, #4988; macOS uses the native bar |
 | Every preference takes effect | partial | 46 of 149 do nothing (scorecard) |
-| UI scale presets | missing | UI-217-9, #2492 |
+| UI scale presets | done | UI-217-9, #2492 |
 | History snapshots: camera button, snapshot rows (click returns and selects, rename, delete; the trash deletes the selected snapshot, and a snapshot or state dragged onto it, #5324), `history.*Snapshot` commands | partial | `history_cmds.rs`, `snapshot_rows` in `panels.rs`; New Snapshot dialog, first snapshot and History Options to come (#2966) |
 | Themes: Photoshop's four greys | partial | five themes; #2661 |
 | Document tabs: overflow, context menu, reorder | done | UI-217-6; middle-click close #2570 |
-| Layers panel: wheel steps blend modes, drop on New/Trash | partial | UI-217-14 |
+| Layers panel: wheel steps blend modes, drop on New/Trash | done | UI-217-14 |
 | Layers panel filter-type dropdown (Kind, Name, Effect, Mode, Attribute, Color, Smart Object, Selected, Artboard) | partial | Kind, Name and Mode; the other six missing. `layer_filter_ui.rs`, `ui.set {layerFilter}` (#5048) |
 | Smart filter rows: click selects, drag onto another smart object moves, ⌥-drag copies, drag onto Delete removes | done | `smart_ui.rs`, `layer.smartFilter.transfer` (#4271) |
 | Layers panel: Clip Thumbnails to Layer Bounds (panel menu, `interface.clipThumbnailsToLayerBounds`) | done (2026-10-12) | `layer_thumb_bounds_tests.rs`; #4281. Thumbnail size and the Panel Options dialog to come |
@@ -229,6 +229,7 @@ Paragraph; the rest open as in-app floating windows.
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-21 | minor | Six rows brought in line with the scorecard, found by the new `cargo xtask docs-sync` claim check: transform right-click menu (TOOL-214-5), transforming a targeted alpha channel (BUG-207-4), saved crop presets (TOOL-214-9), UI scale presets (UI-217-9) and Layers panel wheel/drop (UI-217-14) done; Move tool Auto-Select (TOOL-214-4) partial |
 | 2026-10-21 | minor | Floating panels split into two rows: floating and regrouping inside the app window is done (#4603); separate OS windows and verified restore at launch stay open (UI-217-5 partial) |
 | 2026-10-15 | minor | Shape Density and Feather row added as done (TOOL-214-12, #5846) |
 | 2026-10-13 | minor | Menu bar from the keyboard: Alt / F10 focus, Alt+letter, underlined mnemonics (#4988) |

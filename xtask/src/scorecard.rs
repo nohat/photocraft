@@ -5,7 +5,10 @@
 //!   numbers against the budgets). A fresh `cargo xtask perf` result in `target/` is not used:
 //!   publish it with `cargo xtask perf --update-baseline`.
 //! - `crates/io/tests/corpus.rs`: the corpus floors (`Source { .. }` constants).
-//! - `scorecard/*.toml`: per-area checklists (id, target, status, issue, note).
+//! - `scorecard/*.toml`: per-area checklists (id, target, status, released, checked, issue, note).
+//!   `checked` is the date the row's evidence was last confirmed; `released` is the first release
+//!   that shipped the row's current status (absent: merged on `main` only). `cargo xtask version
+//!   set X.Y.Z` stamps `released` on every row that lacks it ([`stamp_release`]).
 //! - the prefs audit: `Preferences` fields that no code outside `prefs.rs` / `prefs_ui.rs` reads.
 //! - counted from the tree: never-crash attribute coverage, `docs/parity-checklist.md`'s live count.
 //!
@@ -40,8 +43,23 @@ pub struct Item {
     pub id: String,
     pub target: String,
     pub status: ItemStatus,
+    /// First release whose code has this row's current status; `None`: on `main`, not released.
+    pub released: Option<String>,
+    /// When the row's evidence was last confirmed (a TOML date, `checked = 2026-10-21`).
+    pub checked: Option<toml::value::Datetime>,
     pub issue: Option<u32>,
     pub note: Option<String>,
+}
+
+impl Item {
+    /// `released` for display: the version, `main` (merged, not released) or `–` (missing).
+    pub fn release_cell(&self) -> String {
+        match (&self.released, self.status) {
+            (_, ItemStatus::Missing) => "–".into(),
+            (Some(v), _) => v.clone(),
+            (None, _) => "main".into(),
+        }
+    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -71,18 +89,82 @@ pub fn parse_checklist(name: &str, text: &str) -> Result<Checklist, String> {
         if i.target.contains('|') || i.note.as_deref().is_some_and(|n| n.contains('|')) {
             return Err(format!("{name}: {}: `|` breaks the Markdown table", i.id));
         }
+        match &i.checked {
+            Some(d) if d.date.is_some() && d.time.is_none() => {}
+            Some(_) => return Err(format!("{name}: {}: `checked` must be a plain date, like checked = 2026-10-21", i.id)),
+            None => return Err(format!("{name}: {}: needs `checked = YYYY-MM-DD`, the date its evidence was last confirmed", i.id)),
+        }
+        if let Some(v) = &i.released {
+            crate::version::validate(v).map_err(|e| format!("{name}: {}: released: {e}", i.id))?;
+            if i.status == ItemStatus::Missing {
+                return Err(format!("{name}: {}: a missing row has no `released` version", i.id));
+            }
+        }
     }
     Ok(c)
 }
 
+/// `scorecard/measured.toml` holds hand-measured facts for `cargo xtask docs-sync`, not a checklist.
+fn is_checklist(p: &Path) -> bool {
+    p.extension().is_some_and(|x| x == "toml") && p.file_name().is_some_and(|n| n != "measured.toml")
+}
+
+/// `text` (one `scorecard/*.toml`) with `released = "<version>"` added after the `status` line of
+/// every item that is not missing and has no `released` yet. Everything else is unchanged, so the
+/// files keep their hand formatting. Returns the new text and the ids it stamped.
+pub fn stamp_release(text: &str, version: &str) -> (String, Vec<String>) {
+    let mut out = String::with_capacity(text.len() + 64);
+    let mut stamped = Vec::new();
+    for (n, block) in text.split("[[item]]").enumerate() {
+        if n > 0 {
+            out.push_str("[[item]]");
+        }
+        let field = |k: &str| {
+            block.lines().find_map(|l| l.trim().strip_prefix(k).and_then(|r| r.trim_start().strip_prefix('=')).map(|v| v.trim().trim_matches('"').to_string()))
+        };
+        let eligible = n > 0 && field("released").is_none() && field("status").is_some_and(|s| s != "missing");
+        if !eligible {
+            out.push_str(block);
+            continue;
+        }
+        for line in block.split_inclusive('\n') {
+            out.push_str(line);
+            if line.trim_start().starts_with("status") && line.contains('=') {
+                out.push_str(&format!("released = \"{version}\"\n"));
+            }
+        }
+        if let Some(id) = field("id") {
+            stamped.push(id);
+        }
+    }
+    (out, stamped)
+}
+
+/// Stamp `released = "<version>"` on the unreleased rows of every `scorecard/*.toml`, then
+/// regenerate `docs/scorecard.md`. Called by `cargo xtask version set` for a non-prerelease.
+pub fn stamp_release_all(root: &Path, version: &str) -> Result<usize, String> {
+    crate::version::validate(version)?;
+    let dir = root.join("scorecard");
+    let mut total = 0;
+    let mut files: Vec<PathBuf> = std::fs::read_dir(&dir).map_err(|e| format!("read {}: {e}", dir.display()))?.flatten().map(|e| e.path()).collect();
+    files.sort();
+    for f in files.iter().filter(|p| is_checklist(p)) {
+        let text = std::fs::read_to_string(f).map_err(|e| format!("read {}: {e}", f.display()))?;
+        let (new, ids) = stamp_release(&text, version);
+        if !ids.is_empty() {
+            std::fs::write(f, new).map_err(|e| format!("write {}: {e}", f.display()))?;
+            total += ids.len();
+        }
+    }
+    let text = render(&gather(root)?);
+    std::fs::write(root.join(OUT), text).map_err(|e| format!("write {OUT}: {e}"))?;
+    Ok(total)
+}
+
 fn load_checklists(root: &Path) -> Result<Vec<Checklist>, String> {
     let dir = root.join("scorecard");
-    let mut files: Vec<PathBuf> = std::fs::read_dir(&dir)
-        .map_err(|e| format!("read {}: {e}", dir.display()))?
-        .flatten()
-        .map(|e| e.path())
-        .filter(|p| p.extension().is_some_and(|x| x == "toml"))
-        .collect();
+    let mut files: Vec<PathBuf> =
+        std::fs::read_dir(&dir).map_err(|e| format!("read {}: {e}", dir.display()))?.flatten().map(|e| e.path()).filter(|p| is_checklist(p)).collect();
     files.sort();
     let mut out = Vec::new();
     let mut ids = BTreeSet::new();
@@ -449,9 +531,18 @@ fn status_word(s: ItemStatus) -> &'static str {
 }
 
 pub fn render_checklist(c: &Checklist) -> String {
-    let mut s = String::from("| Id | Target | Status | Issue | Note |\n|---|---|---|---|---|\n");
+    let mut s = String::from("| Id | Target | Status | Released | Checked | Issue | Note |\n|---|---|---|---|---|---|---|\n");
     for i in &c.item {
-        s.push_str(&format!("| {} | {} | {} | {} | {} |\n", i.id, i.target, status_word(i.status), perf::issue_link(i.issue), i.note.as_deref().unwrap_or("")));
+        let checked = i.checked.as_ref().map_or_else(String::new, ToString::to_string);
+        s.push_str(&format!(
+            "| {} | {} | {} | {} | {checked} | {} | {} |\n",
+            i.id,
+            i.target,
+            status_word(i.status),
+            i.release_cell(),
+            perf::issue_link(i.issue),
+            i.note.as_deref().unwrap_or("")
+        ));
     }
     s
 }
@@ -557,6 +648,14 @@ here supersede estimates elsewhere.\n\n## Summary\n\n| Area | Done | Partial | M
         };
         s.push_str(&checklist_row(c, &key));
     }
+
+    let unreleased: Vec<&str> =
+        inp.checklists.iter().flat_map(|c| &c.item).filter(|i| i.released.is_none() && i.status != ItemStatus::Missing).map(|i| i.id.as_str()).collect();
+    s.push_str(&format!(
+        "\nChecklist **Released** is the first release that shipped a row's current status (`main`: merged, not released yet); \
+**Checked** is when its evidence was last confirmed. Rows whose status is on `main` but not released: {}.\n",
+        if unreleased.is_empty() { "none".to_string() } else { format!("{} ({})", unreleased.len(), unreleased.join(", ")) }
+    ));
 
     // Performance.
     s.push_str("\n## Performance\n\n");
@@ -793,13 +892,32 @@ const PHOTOSHOP: Source = Source { label: "photoshop oracles", dir: "corpus/phot
 
     #[test]
     fn checklists_validate() {
-        let ok = "area = \"tools\"\ntitle = \"Tools\"\norder = 3\n[[item]]\nid = \"T-1\"\ntarget = \"Pencil\"\nstatus = \"partial\"\nissue = 213\n";
+        let ok = "area = \"tools\"\ntitle = \"Tools\"\norder = 3\n[[item]]\nid = \"T-1\"\ntarget = \"Pencil\"\nstatus = \"partial\"\nchecked = 2026-10-21\nissue = 213\n";
         let c = parse_checklist("t.toml", ok).unwrap();
         assert_eq!(c.counts(), (0, 1, 0));
-        assert!(render_checklist(&c).contains("| T-1 | Pencil | partial | [#213](https://github.com/storytold/photocraft/issues/213) |  |"));
+        assert!(
+            render_checklist(&c).contains("| T-1 | Pencil | partial | main | 2026-10-21 | [#213](https://github.com/storytold/photocraft/issues/213) |  |")
+        );
+        let released = ok.replace("checked", "released = \"0.10.0\"\nchecked");
+        assert!(render_checklist(&parse_checklist("t.toml", &released).unwrap()).contains("| partial | 0.10.0 | 2026-10-21 |"));
+        assert!(parse_checklist("t.toml", &ok.replace("checked = 2026-10-21\n", "")).is_err(), "checked is required");
+        assert!(parse_checklist("t.toml", &ok.replace("2026-10-21", "2026-10-21T10:00:00")).is_err(), "checked is a date");
+        assert!(parse_checklist("t.toml", &released.replace("0.10.0", "soon")).is_err(), "released is a version");
+        assert!(parse_checklist("t.toml", &released.replace("partial", "missing")).is_err(), "a missing row is not released");
         assert!(parse_checklist("t.toml", &ok.replace("partial", "almost")).is_err(), "status must be done|partial|missing");
         assert!(parse_checklist("t.toml", &ok.replace("Pencil", "a | b")).is_err());
         assert!(parse_checklist("t.toml", &format!("{ok}bogus = 1\n")).is_err());
+    }
+
+    #[test]
+    fn release_stamps_only_unreleased_rows() {
+        let text = "area = \"x\"\ntitle = \"X\"\n\n[[item]]\nid = \"A\"\ntarget = \"a\"\nstatus = \"done\"\nchecked = 2026-10-01\n\n[[item]]\nid = \"B\"\ntarget = \"b\"\nstatus = \"missing\"\nchecked = 2026-10-01\n\n[[item]]\nid = \"C\"\ntarget = \"c\"\nstatus = \"partial\"\nreleased = \"0.9.0\"\nchecked = 2026-10-01\n";
+        let (out, ids) = stamp_release(text, "0.12.0");
+        assert_eq!(ids, ["A"]);
+        assert_eq!(out, text.replace("status = \"done\"\n", "status = \"done\"\nreleased = \"0.12.0\"\n"));
+        let c = parse_checklist("x.toml", &out).unwrap();
+        assert_eq!(c.item.iter().map(Item::release_cell).collect::<Vec<_>>(), ["0.12.0", "–", "0.9.0"]);
+        assert_eq!(stamp_release(&out, "0.13.0").1, Vec::<String>::new(), "stamping twice changes nothing");
     }
 
     #[test]

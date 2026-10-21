@@ -78,7 +78,7 @@ Kept for the record; see the [reassessment](#reassessment-2026-10-21) for what e
 
 | | Value | Kind |
 |---|---|---|
-| **Feature breadth** | **~76%** | partly measured on 2026-10-10: menus 628/628, tools 56/68, panels 30/35, formats 13+4 of 31. Tools are 67/68 on 2026-10-21; the weighted number is not recalculated |
+| **Feature breadth** | **~76%** | partly measured on 2026-10-10: menus 628/628, tools 56/68, panels 30/35, formats 13+4 of 31. Tools are <!-- fact:tools.inventory -->67 of 68<!-- /fact --> on <!-- fact:tools.inventory.measured -->2026-10-21<!-- /fact -->; the weighted number is not recalculated |
 | **Ready for real work** | **~45%** (40–50%) | historical estimate, pending recalculation |
 | Mainstream practitioner | ~43% (38–48%) | historical estimate, pending recalculation ([method](docs/target-app-parity.md#mainstream-practitioner-43)) |
 | Essentials user | ~61% (55–67%) | historical estimate, pending recalculation ([method](docs/target-app-parity.md#essentials-user-61)) |
@@ -101,7 +101,7 @@ architecture and the PSD writer are the serial parts.
 **Why alpha.** Core workflows (open, layer, select, paint, adjust, filter, type, save) work end to
 end, and breadth is high. What keeps us in alpha is missing evidence: no test opens our exports
 in Photoshop (FILE-216-4), the performance numbers date from 2026-10-05, and nobody has sorted
-the open reports (1,748 on 2026-10-21, requests included) by severity and data loss. Beta needs
+the open reports (<!-- fact:issues.open -->1,748<!-- /fact --> on <!-- fact:issues.open.measured -->2026-10-21<!-- /fact -->, requests included) by severity and data loss. Beta needs
 the [beta acceptance](#remaining-milestones) evidence, not a percentage. The [alpha gate](docs/roadmap.md#alpha-gate) passes: all six core workflows
 (retouch, composite, cut-out, design, paint, PSD exchange) complete end to end and save and reopen;
 four are partial in depth, none blocked.
@@ -149,26 +149,26 @@ Rows and evidence: [target-app-parity › Feature areas](docs/target-app-parity.
 
 ## Languages
 
-Measured with `cargo xtask i18n-coverage` on `main` at 68348dc, 2026-10-21 (1,918 source keys).
+Measured with `cargo xtask i18n-coverage` (<!-- fact:i18n.keys -->1,918<!-- /fact --> source keys) and kept current by `cargo xtask docs-sync`.
 `partial` everywhere because engine messages are still English and no catalog has a recorded
 native-speaker review. Detail: [localization-parity](docs/localization-parity.md).
 
 | Language | Code | UI strings | Status |
 |---|---|---:|---|
-| English | `en` | 100% | full |
-| Simplified Chinese | `zh-hans` | 99.3% | partial |
-| Spanish | `es` | 100% | partial |
+| English | `en` | <!-- fact:i18n.en -->100%<!-- /fact --> | full |
+| Simplified Chinese | `zh-hans` | <!-- fact:i18n.zh-hans -->99.3%<!-- /fact --> | partial |
+| Spanish | `es` | <!-- fact:i18n.es -->100%<!-- /fact --> | partial |
 | Hindi | `hi` | 0% | none |
 | Arabic | `ar` | 0% (RTL shell only) | none |
-| French | `fr` | 99.3% | partial |
-| Portuguese (Brazil) | `pt-br` | 100% | partial |
-| Indonesian | `id` | 99.3% | partial |
-| Japanese | `ja` | 100% | partial |
-| German | `de` | 100% | partial |
-| Korean | `ko` | 99.3% | partial |
-| Vietnamese | `vi` | 100% | partial (merged 2026-10-12, #2636; in 0.11.1) |
+| French | `fr` | <!-- fact:i18n.fr -->99.3%<!-- /fact --> | partial |
+| Portuguese (Brazil) | `pt-br` | <!-- fact:i18n.pt-br -->100%<!-- /fact --> | partial |
+| Indonesian | `id` | <!-- fact:i18n.id -->99.3%<!-- /fact --> | partial |
+| Japanese | `ja` | <!-- fact:i18n.ja -->100%<!-- /fact --> | partial |
+| German | `de` | <!-- fact:i18n.de -->100%<!-- /fact --> | partial |
+| Korean | `ko` | <!-- fact:i18n.ko -->99.3%<!-- /fact --> | partial |
+| Vietnamese | `vi` | <!-- fact:i18n.vi -->100%<!-- /fact --> | partial (merged 2026-10-12, #2636; in 0.11.1) |
 
-Also shipped: Traditional Chinese, Russian, Ukrainian, Czech, Polish (99.3%), Greek, Dutch, Italian, Hungarian, Serbian, Turkish (11; 100% unless noted).
+Also shipped: Traditional Chinese <!-- fact:i18n.zh-hant -->100%<!-- /fact -->, Russian <!-- fact:i18n.ru -->100%<!-- /fact -->, Ukrainian <!-- fact:i18n.uk -->100%<!-- /fact -->, Czech <!-- fact:i18n.cs -->100%<!-- /fact -->, Polish <!-- fact:i18n.pl -->99.3%<!-- /fact -->, Greek <!-- fact:i18n.el -->100%<!-- /fact -->, Dutch <!-- fact:i18n.nl -->100%<!-- /fact -->, Italian <!-- fact:i18n.it -->100%<!-- /fact -->, Hungarian <!-- fact:i18n.hu -->100%<!-- /fact -->, Serbian <!-- fact:i18n.sr -->100%<!-- /fact -->, Turkish <!-- fact:i18n.tr -->100%<!-- /fact -->.
 
 ## Remaining milestones
 

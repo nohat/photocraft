@@ -72,7 +72,7 @@ supports many more, including CR3).
 | Olympus ORF | uncompressed only | |
 | Fujifilm RAF (Bayer and X-Trans) | uncompressed only; no Fuji colour calibration | |
 | Others (CRW, 3FR, IIQ, X3F, SRW, MRW, ERF…) | embedded preview only | |
-| .xmp sidecars, highlight modes, raw preferences | missing | FILE-215-11 |
+| .xmp sidecars, highlight modes, raw preferences | missing | the rest of FILE-215-11 (partial: lossy DNG landed) |
 | Camera Raw as a PSD smart filter | partial | 2026-10-07: WB, Light/Presence, curves, HSL, grading, detail, grain, vignette mapped (FILE-215-12) |
 
 2026-10-11: on #2135's embedded-JPEG rendering work, open-time Camera Raw tuning

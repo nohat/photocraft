@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, BTreeSet, HashSet};
+use std::collections::{BTreeSet, HashSet};
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -15,36 +15,41 @@ struct Language {
 }
 
 pub fn run(root: &Path) -> Result<(), String> {
+    print!("{}", format_report(&coverage(root)?));
+    Ok(())
+}
+
+/// Measured UI translation coverage: the number of stable source keys, and per registered
+/// language (in registry order) how many of them its catalog translates.
+pub struct Coverage {
+    pub keys: usize,
+    pub languages: Vec<(String, usize)>,
+}
+
+pub fn coverage(root: &Path) -> Result<Coverage, String> {
     let i18n_dir = root.join("crates/ui-egui/src/i18n");
     let registry_path = i18n_dir.join("mod.rs");
     let registry = fs::read_to_string(&registry_path).map_err(|e| format!("{}: {e}", registry_path.display()))?;
     let languages = registered_languages(&registry)?;
 
     let english_keys = source_keys(root)?;
-    let mut catalog_texts = BTreeMap::new();
-    for language in &languages {
-        if let Some(path) = &language.catalog {
-            let full_path = i18n_dir.join(path);
-            let text = fs::read_to_string(&full_path).map_err(|e| format!("{}: {e}", full_path.display()))?;
-            catalog_texts.insert(language.code.clone(), (full_path, text));
-        }
-    }
-    let mut translations = BTreeMap::new();
-    for language in &languages {
-        let entries = if language.catalog.is_some() {
-            let (full_path, text) = catalog_texts.get(&language.code).ok_or_else(|| format!("missing source for registered language `{}`", language.code))?;
-            parse_catalog(full_path, text)?
-        } else {
-            BTreeSet::new()
-        };
-        translations.insert(language.code.clone(), entries);
-    }
-
     if english_keys.is_empty() {
         return Err("no source-derived English UI translation keys were found".into());
     }
-    print!("{}", format_report(&languages, &english_keys, &translations));
-    Ok(())
+    let mut out = Vec::new();
+    for language in &languages {
+        let translated = if language.code == "en" {
+            english_keys.len()
+        } else if let Some(path) = &language.catalog {
+            let full_path = i18n_dir.join(path);
+            let text = fs::read_to_string(&full_path).map_err(|e| format!("{}: {e}", full_path.display()))?;
+            parse_catalog(&full_path, &text)?.intersection(&english_keys).count()
+        } else {
+            0
+        };
+        out.push((language.code.clone(), translated));
+    }
+    Ok(Coverage { keys: english_keys.len(), languages: out })
 }
 
 fn source_keys(root: &Path) -> Result<BTreeSet<Key>, String> {
@@ -63,14 +68,12 @@ fn source_keys(root: &Path) -> Result<BTreeSet<Key>, String> {
     Ok(keys)
 }
 
-fn format_report(languages: &[Language], english_keys: &BTreeSet<Key>, translations: &BTreeMap<String, BTreeSet<Key>>) -> String {
+fn format_report(c: &Coverage) -> String {
     let mut report = String::from("UI translation coverage (translated source keys / source keys)\n");
     report.push_str(&format!("{:<12} {:>12} {:>9}\n", "language", "translated", "coverage"));
-    for language in languages {
-        let translated =
-            if language.code == "en" { english_keys.len() } else { translations.get(&language.code).map_or(0, |keys| keys.intersection(english_keys).count()) };
-        let coverage = 100.0 * translated as f64 / english_keys.len() as f64;
-        report.push_str(&format!("{:<12} {:>5}/{:<6} {:>8.2}%\n", language.code, translated, english_keys.len(), coverage));
+    for (code, translated) in &c.languages {
+        let coverage = 100.0 * *translated as f64 / c.keys as f64;
+        report.push_str(&format!("{:<12} {:>5}/{:<6} {:>8.2}%\n", code, translated, c.keys, coverage));
     }
     report
 }
@@ -494,10 +497,11 @@ mod tests {
         let languages = registered_languages(registry);
         assert!(languages.is_ok());
         let languages = languages.unwrap_or_default();
-        let english_keys = BTreeSet::from([Key { context: String::new(), source: "Open".into() }, Key { context: String::new(), source: "Save".into() }]);
-        let translations = BTreeMap::from([("fr".to_string(), BTreeSet::from([Key { context: String::new(), source: "Open".into() }]))]);
+        let codes: Vec<&str> = languages.iter().map(|l| l.code.as_str()).collect();
+        assert_eq!(codes, ["en", "fr", "zh"]);
+        let coverage = Coverage { keys: 2, languages: vec![("en".into(), 2), ("fr".into(), 1), ("zh".into(), 0)] };
         assert_eq!(
-            format_report(&languages, &english_keys, &translations),
+            format_report(&coverage),
             "UI translation coverage (translated source keys / source keys)\n\
              language       translated  coverage\n\
              en               2/2        100.00%\n\

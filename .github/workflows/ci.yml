@@ -166,6 +166,13 @@ jobs:
         if: runner.os == 'Linux'
         run: cargo xtask scorecard --check
 
+      # The prose progress docs quote the same numbers through <!-- fact:KEY --> markers and state
+      # checklist statuses; both must match their sources (scorecard inputs, i18n coverage,
+      # scorecard/measured.toml). Static, like the step above.
+      - name: Progress docs in sync
+        if: runner.os == 'Linux'
+        run: cargo xtask docs-sync --check
+
       # nextest runs the test binaries in parallel (cargo test runs them one at a time), with the
       # GPU tests capped by the `gpu` group in .config/nextest.toml (#2204).
       - uses: taiki-e/install-action@83ac0ad63c0167e6f06796fab0fce28db1bf3db0 # v2.87.22

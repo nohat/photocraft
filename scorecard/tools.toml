@@ -9,6 +9,8 @@ order = 3
 id = "TOOL-213-1"
 target = "Pencil tool: aliased 1 px painting, square pixel-aligned cursor"
 status = "done"
+released = "0.3.0"
+checked = 2026-10-05
 issue = 213
 note = "Tool::Pencil (B group): live aliased strokes on the pixel grid, square cursor, Auto Erase; pencil_tests.rs"
 
@@ -16,6 +18,8 @@ note = "Tool::Pencil (B group): live aliased strokes on the pixel grid, square c
 id = "TOOL-213-2"
 target = "Mixer Brush tool on the toolbar"
 status = "done"
+released = "0.4.0"
+checked = 2026-10-16
 issue = 213
 note = "Tool::MixerBrush in the Brush (B) flyout; Wet/Load/Mix/Flow/Sample All Layers options, the Current Brush Load swatch with Load Brush and Clean Brush (brush.mixer.load, brush.mixer.clean) and the automatic Load and Clean toggles; command/control dispatch and selection-clipping tests"
 
@@ -23,6 +27,8 @@ note = "Tool::MixerBrush in the Brush (B) flyout; Wet/Load/Mix/Flow/Sample All L
 id = "TOOL-213-3"
 target = "Patch tool with a live preview of the patched area"
 status = "done"
+released = "0.4.0"
+checked = 2026-10-07
 issue = 213
 note = "paint.patch (retouch_cmds/patch.rs, source/destination) + Tool::Patch (J group: lasso, then drag the selection); the drag shows the heal live (patch_preview.rs, coarse colour fit: 1000x1000 in 52 ms)"
 
@@ -30,6 +36,7 @@ note = "paint.patch (retouch_cmds/patch.rs, source/destination) + Tool::Patch (J
 id = "TOOL-213-4"
 target = "Content-Aware Move tool reusing inpaint completion"
 status = "done"
+checked = 2026-10-21
 issue = 213
 note = "paint.contentAwareMove (retouch_cmds/content_aware_move.rs: move/extend, Structure 1-7, Color 0-10, Sample All Layers, Transform On Drop's scaleX/scaleY/rotate; background job) + Tool::ContentAwareMove (J group: lasso, then drag; Transform On Drop puts a scale/rotate box on the dropped patch, cam_transform.rs: Enter commits as one step, Esc cancels). cam_preview.rs: once the pointer or the box rests, the result shows (a cancellable background job on a smaller sampling window, #4385); a selection over 256x256 shows a coarse result solved scaled down first, then the command's exact result as a second job (#6680; 24 MP document, release: 600x400 coarse 0.26 s then exact 0.8 s, 1500x1000 0.38 s then 4.1 s, 3000x2000 0.69 s then 9.4 s; was no preview above 256x256). Tests: content_aware_move_previews_large_selections_coarse_then_exact_at_all_depths, content_aware_move_coarse_preview_handles_transform_extend_and_limits, a_preview_within_the_full_resolution_budget_is_the_plain_solve_bit_for_bit, a_large_selection_shows_a_coarse_result_then_the_exact_one"
 
@@ -37,6 +44,8 @@ note = "paint.contentAwareMove (retouch_cmds/content_aware_move.rs: move/extend,
 id = "TOOL-213-5"
 target = "Painting a type/shape/smart/fill layer offers to rasterize, then continues the stroke"
 status = "done"
+released = "0.3.0"
+checked = 2026-10-05
 issue = 213
 note = "rasterize_prompt.rs: OK rasterizes then paints (two history states), Cancel does nothing; drivable via ui.dialog.confirm"
 
@@ -44,6 +53,8 @@ note = "rasterize_prompt.rs: OK rasterizes then paints (two history states), Can
 id = "TOOL-213-6"
 target = "Fill dialog: contents, blend, opacity, preserve transparency; remembered; Shift+Backspace"
 status = "done"
+released = "0.3.0"
+checked = 2026-10-05
 issue = 213
 note = "fill_ui.rs dialog over edit.fill (fill_cmds.rs): all contents, mode, opacity, preserve; remembered in prefs; Shift+F5 / Shift+Backspace"
 
@@ -51,6 +62,8 @@ note = "fill_ui.rs dialog over edit.fill (fill_cmds.rs): all contents, mode, opa
 id = "TOOL-213-7"
 target = "Live stroke preview for every brush-based retouch tool"
 status = "partial"
+released = "0.8.0"
+checked = 2026-10-21
 issue = 213
 note = "Live (canvas.rs strokes_live): Brush, Pencil, Eraser, Color Replacement, Blur, Sharpen, Smudge, Dodge, Burn, Sponge, Clone Stamp, Healing Brush, History Brush (#1026, #1040), Pattern Stamp (aligned and Impressionist) and Background Eraser (#3754); the release commits the live stroke's pixels (P32) or, for the retouch tools, the same pixels the live stroke showed (tested equal at 8 and 16 bits). Spot Healing Brush shows the area it heals as a dark overlay and heals on release, as Photoshop does. Not yet live: Mixer Brush (in PR #3627)"
 
@@ -58,6 +71,8 @@ note = "Live (canvas.rs strokes_live): Brush, Pencil, Eraser, Color Replacement,
 id = "TOOL-213-8"
 target = "Clone Source: W/H link, drawn overlay (opacity/blend/clip/auto-hide), Alt target cursor"
 status = "partial"
+released = "0.3.0"
+checked = 2026-10-13
 issue = 213
 note = "Clone Source overlay drawn with opacity, inversion, circular clipping, auto-hide and the Normal/Darken/Lighten/Difference blend against the image under the brush (canvas.rs draw_clone_preview, clone_source::overlay_blend); a shaped tip (sampled bitmap, rotation, roundness) clips the overlay to its outline (brush_cursor::tip_mask, #4372); W/H link (cloneSource.set linked, panel chain button, #3298)"
 
@@ -65,6 +80,8 @@ note = "Clone Source overlay drawn with opacity, inversion, circular clipping, a
 id = "TOOL-213-9"
 target = "Eyedropper comparison ring (new colour above, current below) while sampling"
 status = "done"
+released = "0.6.0"
+checked = 2026-10-09
 issue = 213
 note = "eyedropper_ring (canvas.rs): the sampled colour on the upper arc, the foreground below, drawn for the Eyedropper and Alt-sampling while the button is held; the Precise-cursor preference keeps the crosshair"
 
@@ -72,6 +89,8 @@ note = "eyedropper_ring (canvas.rs): the sampled colour on the upper arc, the fo
 id = "TOOL-213-10"
 target = "Ctrl+Alt drag resizes brush size/hardness with an on-canvas readout"
 status = "done"
+released = "0.7.0"
+checked = 2026-10-10
 issue = 213
 note = "brush_resize.rs (#297, #370): Alt+right-drag, or Control+Option-drag on macOS (Control+Alt everywhere), sets diameter horizontally and hardness vertically, circle plus Diameter/Hardness readout, one coalesced tools.setBrush, no paint or history; 9 tests there"
 
@@ -79,6 +98,8 @@ note = "brush_resize.rs (#297, #370): Alt+right-drag, or Control+Option-drag on 
 id = "TOOL-213-11"
 target = "Editable pressure curve, global and per control"
 status = "done"
+released = "0.10.0"
+checked = 2026-10-14
 issue = 213
 note = "Global: Preferences › Tools › Pressure Curve (prefs tools.pressureCurve; applied to every pen sample in ui-egui stylus.rs before any brush; editor pressure_curve_ui.rs with Linear/Soft/Hard presets). Per control: every brush Dynamic has its own curve (paint ResponseCurve, the same monotone cubic; Dynamic.curve, set by tools.setBrush, e.g. shapeDynamics.size.curve) applied to its Fade/Pressure/Tilt/Wheel/Rotation input in dynamics.rs dynamic_value; Brush Settings shows it behind each Control row's curve button (#3294)"
 
@@ -86,6 +107,8 @@ note = "Global: Preferences › Tools › Pressure Curve (prefs tools.pressureCu
 id = "TOOL-213-12"
 target = "Import an image file as a brush tip"
 status = "done"
+released = "0.10.0"
+checked = 2026-10-14
 issue = 213
 note = "brush.presets.importImage (path or data); Brushes panel and preset picker Import Brushes… take .abr or an image (#3279)"
 
@@ -93,6 +116,8 @@ note = "brush.presets.importImage (path or data); Brushes panel and preset picke
 id = "TOOL-213-13"
 target = "Brush regression tests: no seams, hard edge, zero-scatter defaults, ABR never black"
 status = "done"
+released = "0.6.0"
+checked = 2026-10-09
 issue = 213
 note = "Seam, hard-edge and zero-scatter tests in brush_tests.rs; ABR tip colour test in abr_map/tests.rs"
 
@@ -100,6 +125,8 @@ note = "Seam, hard-edge and zero-scatter tests in brush_tests.rs; ABR tip colour
 id = "TOOL-213-14"
 target = "Tablet: no OS arrow cursor over the canvas on macOS, Windows and Linux"
 status = "partial"
+released = "0.3.0"
+checked = 2026-10-05
 issue = 213
 note = "Brush tools set CursorIcon::None (canvas.rs:1259-1275); not verified per OS"
 
@@ -107,6 +134,8 @@ note = "Brush tools set CursorIcon::None (canvas.rs:1259-1275); not verified per
 id = "TOOL-213-18"
 target = "Pattern Stamp tool: sibling of Clone Stamp in the S flyout"
 status = "done"
+released = "0.6.0"
+checked = 2026-10-08
 issue = 213
 note = "Tool::PatternStamp in the S group; paint.patternStamp stamps the Patterns-panel tile with Aligned and Impressionist (an approximation: it jitters each dab's tile phase, not Photoshop's smeared impressionist look); engine tests cover depths, seams, hostile input"
 
@@ -114,6 +143,8 @@ note = "Tool::PatternStamp in the S group; paint.patternStamp stamps the Pattern
 id = "TOOL-214-1"
 target = "Select and Mask workspace: view modes, Refine Edge brush, 6 outputs"
 status = "partial"
+released = "0.3.0"
+checked = 2026-10-11
 issue = 214
 note = "select.refineEdge dialog with a live preview in Photoshop's view modes: Onion Skin, Marching Ants, Overlay, On Black, On White, Black & White, On Layers, per-view Opacity, Show Edge (J), Show Original (P), F cycles, X shows the image (select_mask_view.rs, #1754); Refine Edge Brush (R, size, Expand Detection Area / Restore Original Edge, Alt swaps) paints select.refineEdge refineStrokes, estimated by colour-line matting (matting/brush.rs, #2972); outputs Selection, Layer Mask, New Layer, New Layer with Mask, New Document, New Document with Mask (#2998); no workspace layout"
 
@@ -121,6 +152,8 @@ note = "select.refineEdge dialog with a live preview in Photoshop's view modes: 
 id = "TOOL-214-2"
 target = "Marquee: Shift square, Alt from centre, live W x H readout"
 status = "done"
+released = "0.7.0"
+checked = 2026-10-10
 issue = 214
 note = "canvas.rs marquee_corners: Shift square or circle, Alt from the centre, live W x H readout beside the cursor (marquee_readout); marquee_tests.rs"
 
@@ -128,6 +161,8 @@ note = "canvas.rs marquee_corners: Shift square or circle, Alt from the centre, 
 id = "TOOL-214-3"
 target = "Color Range test: Sampled Colors at Fuzziness 0 selects the exact match only"
 status = "done"
+released = "0.9.0"
+checked = 2026-10-14
 issue = 214
 note = "color_range_fuzziness_zero_selects_exact_match_only in selection_cmds.rs asserts exact match is selected and 1-level-off pixels are rejected at fuzziness 0; tonal presets covered in color_range_presets"
 
@@ -135,6 +170,8 @@ note = "color_range_fuzziness_zero_selects_exact_match_only in selection_cmds.rs
 id = "TOOL-214-4"
 target = "Move tool: box-select layers, Auto-Select hover outline, double-click fit, drag to a tab"
 status = "partial"
+released = "0.7.0"
+checked = 2026-10-21
 issue = 214
 note = "Auto-Select hover outline (Preferences › Tools › Show Highlight on Rollover, #2834) and box-select layers from an empty spot (move_box.rs, layer.selectInRect, #2844) done; dragging layers with the Move tool (or from the Layers panel) onto another document's tab copies them there (layer_transfer.rs, layer.copyToDocument, #589/#851); double-click fit and dragging a selection's pixels to another document open"
 
@@ -142,6 +179,8 @@ note = "Auto-Select hover outline (Preferences › Tools › Show Highlight on R
 id = "TOOL-214-5"
 target = "Right-click menu during Free Transform (scale, rotate, skew, warp, flip, rotate 90/180)"
 status = "done"
+released = "0.8.0"
+checked = 2026-10-11
 issue = 214
 note = "canvas_tool_menu.rs TRANSFORM_MENU: modes, Content-Aware Scale / Puppet Warp greyed, Rotate 180 / 90 CW / 90 CCW and Flip turn the open box (transform_tool::intercept, #2832)"
 
@@ -149,6 +188,8 @@ note = "canvas_tool_menu.rs TRANSFORM_MENU: modes, Content-Aware Scale / Puppet 
 id = "TOOL-214-6"
 target = "Puppet Warp mesh follows the object outline (constrained triangulation)"
 status = "done"
+released = "0.8.0"
+checked = 2026-10-12
 issue = 214
 note = "algo/puppet.rs build_mesh: traced outline of the opaque region grown by Expansion, triangulated with a Density-spaced lattice (conforming Delaunay); separate shapes get separate meshes (#3105)"
 
@@ -156,6 +197,8 @@ note = "algo/puppet.rs build_mesh: traced outline of the opaque region grown by 
 id = "TOOL-214-7"
 target = "Content-Aware Scale through the Free Transform box with a live proxy preview"
 status = "done"
+released = "0.8.0"
+checked = 2026-10-12
 issue = 214
 note = "Edit > Content-Aware Scale opens a scale-only Free Transform box (cas_transform.rs) with Amount, Protect and Protect Skin Tones in the options bar; edit.contentAwareScale carves a 384 px copy in the background for the live preview, and Enter runs it with the box's size and x/y as one step (#3096)"
 
@@ -163,6 +206,8 @@ note = "Edit > Content-Aware Scale opens a scale-only Free Transform box (cas_tr
 id = "TOOL-214-8"
 target = "A measured ruler angle prefills Image Rotation > Arbitrary (0.01 deg)"
 status = "done"
+released = "0.8.0"
+checked = 2026-10-11
 issue = 214
 note = "analysis_ui.rs: image.rotation.arbitrary opens seeded with the ruler angle and the direction that straightens it; arbitrary_rotation_starts_at_the_ruler_angle checks 5.7106 deg within 1e-3 and cw/ccw for three measured lines"
 
@@ -170,6 +215,8 @@ note = "analysis_ui.rs: image.rotation.arbitrary opens seeded with the ruler ang
 id = "TOOL-214-9"
 target = "Crop: W x H x Resolution with units, saved crop presets, Straighten in the options bar"
 status = "done"
+released = "0.8.0"
+checked = 2026-10-11
 issue = 214
 note = "Ratio dropdown and fields, Straighten (TOOL-214-21); W x H x Resolution with units, built-in size presets and Front Image (crop_size.rs, image.crop targetWidth/targetHeight/resolution, #2443); New / Delete Crop Preset save and delete crop tool presets (crop_presets.rs, tool.presets.* with tool crop, persisted with the preferences)"
 
@@ -177,6 +224,8 @@ note = "Ratio dropdown and fields, Straighten (TOOL-214-21); W x H x Resolution 
 id = "TOOL-214-10"
 target = "Pen: Alt breaks a handle, Shift 45 deg, Ctrl direct-selects, Backspace, close-drag handle"
 status = "done"
+released = "0.10.0"
+checked = 2026-10-14
 issue = 214
 note = "Ctrl/Cmd = Direct Selection and Alt = Convert Point on existing paths (direct_select.rs, #790); Backspace/Delete retracts the last point while drawing (#1466); Alt during a drag breaks the handle pair, Alt-drag turns the last anchor's outgoing handle alone, and dragging on the first anchor closes with that anchor's handles (vector_ui.rs, #3306); Shift-click puts the next anchor on the nearest 45 deg ray from the previous one and Shift-drag turns the handles to 45 deg steps, live (vector_ui.rs pen_shift_click_puts_the_next_anchor_on_a_45_degree_ray, pen_shift_drag_turns_handles_to_45_degrees_live, #3751)"
 
@@ -184,6 +233,7 @@ note = "Ctrl/Cmd = Direct Selection and Alt = Convert Point on existing paths (d
 id = "TOOL-214-11"
 target = "Stroke Path dialog: pick any brush-based tool, Simulate Pressure"
 status = "done"
+checked = 2026-10-11
 issue = 214
 note = "path.stroke tool: Brush, Pencil, Eraser and every other brush-based tool (Background Eraser, Clone/Pattern Stamp, Healing/Spot Healing Brush, History Brush, Blur, Sharpen, Smudge, Dodge, Burn, Sponge, Color Replacement, Mixer Brush: their paint.* command along the path, one step) plus simulatePressure (taper both ends); Stroke Path dialog from the Pen menu, the Paths panel menu and Alt-click on its Stroke button (#2978)"
 
@@ -191,6 +241,7 @@ note = "path.stroke tool: Brush, Pencil, Eraser and every other brush-based tool
 id = "TOOL-214-12"
 target = "Shapes: on-canvas corner radius handles, shape feather, selection to shape with tolerance"
 status = "done"
+checked = 2026-10-21
 issue = 214
 note = "On-canvas corner radius widgets on every selected live rectangle with Path Selection, the Rectangle tool and Move + Show Transform Controls: drag rounds every corner of every selected rectangle alike, Alt that corner on each, corner radius cursor and R: readout, one history step (corner_radius.rs, 2026-10-13); select.convertToShape with tolerance (vector_cmds.rs:1256); shape Density and Feather (Properties, layer.vectorMask.edit on a shape layer; the path as the fill's soft vector mask, Photoshop's 10 px feather ramp within 1 level; PSD mask parameters and .pcraft, #5846, 2026-10-15)"
 
@@ -198,6 +249,7 @@ note = "On-canvas corner radius widgets on every selected live rectangle with Pa
 id = "TOOL-214-13"
 target = "Mask Properties: Density and Feather controls"
 status = "done"
+checked = 2026-10-21
 issue = 214
 note = "Properties panel shows Density (%) and Feather (px) sliders for a targeted pixel mask (layer.layerMask.edit) and a targeted vector mask (layer.vectorMask.edit), non-destructive and one undo step per drag, with Photoshop's Refine row (mask_props_ui.rs; mask_props_ui_tests.rs pixel_mask_properties_follow_target_for_raster_and_adjustment_in_both_themes, mask_slider_drags_preview_live_and_undo_as_separate_gestures, vector_mask_properties_edit_density_and_feather)"
 
@@ -205,6 +257,8 @@ note = "Properties panel shows Density (%) and Feather (px) sliders for a target
 id = "TOOL-214-14"
 target = "Vanishing Point window: draw and edit planes, paste, clone in perspective"
 status = "partial"
+released = "0.3.0"
+checked = 2026-10-12
 issue = 214
 note = "filter.vanishingPoint (vp_cmds.rs:15); on-canvas plane editor (vp_ui.rs: Create/Edit Plane, edge nodes, valid/doubtful/invalid grid colours, Grid Size, clipboard pasted onto the plane on OK); clone stamp, marquee and tear-off planes in the window still missing"
 
@@ -212,6 +266,8 @@ note = "filter.vanishingPoint (vp_cmds.rs:15); on-canvas plane editor (vp_ui.rs:
 id = "TOOL-214-15"
 target = "Content-Aware Fill workspace: paint the sampling area, preview, rotate/scale/mirror, new layer"
 status = "done"
+released = "0.11.1"
+checked = 2026-10-21
 issue = 214
 note = "Full-window workspace (ui-egui caf_ui.rs): Sampling Brush, Lasso fill-area edits, background Preview, rotation/scale/mirror and current/new/duplicate output; Apply repeats without closing; OK and Apply run edit.contentAwareFill with the same plan as the preview. Fill fidelity against Photoshop is not measured"
 
@@ -219,6 +275,8 @@ note = "Full-window workspace (ui-egui caf_ui.rs): Sampling Brush, Lasso fill-ar
 id = "TOOL-214-16"
 target = "Liquify: redo (Cmd+Shift+Z)"
 status = "done"
+released = "0.4.0"
+checked = 2026-10-07
 issue = 214
 note = "liquify_ui.rs supports bounded redo through Cmd+Shift+Z and the control channel; new strokes clear redo"
 
@@ -226,6 +284,8 @@ note = "liquify_ui.rs supports bounded redo through Cmd+Shift+Z and the control 
 id = "TOOL-213-17"
 target = "Red Eye tool: click a pupil to neutralize the red reflection"
 status = "done"
+released = "0.6.0"
+checked = 2026-10-08
 issue = 213
 note = "paint.redEye (redeye_cmds.rs) + Tool::RedEye in the J flyout; Pupil Size and Darken Amount; catchlights kept; a miss is an error"
 
@@ -233,6 +293,8 @@ note = "paint.redEye (redeye_cmds.rs) + Tool::RedEye in the J flyout; Pupil Size
 id = "TOOL-214-17"
 target = "Rotate View tool: drag to turn the view, Reset View, Match Rotation copies the angle"
 status = "done"
+released = "0.6.0"
+checked = 2026-10-09
 issue = 214
 note = "Tool::RotateView in the Hand flyout; view.rotateView / view.resetView; Match Rotation copies views[].rotation; enhanced_controls.rotate_view_with_trackpad is read"
 
@@ -240,6 +302,8 @@ note = "Tool::RotateView in the Hand flyout; view.rotateView / view.resetView; M
 id = "TOOL-1649-1"
 target = "Eyedropper Sample Size (Point, 3×3 … 101×101 Average), Sample layers, Show Sampling Ring"
 status = "done"
+released = "0.6.0"
+checked = 2026-10-11
 issue = 1649
 note = "document.sampleColor (sample_cmds.rs): average of the square clipped to the canvas, in the document's model and depth; eyedropper_ui.rs options bar; shared with Alt-click, dialog eyedroppers and the Info panel; ui.set eyedropperSampleSize/eyedropperSample/eyedropperRing. Color Sampler tool is separate (#1046, sampler_cmds.rs)"
 
@@ -247,6 +311,8 @@ note = "document.sampleColor (sample_cmds.rs): average of the square clipped to 
 id = "TOOL-214-20"
 target = "Crop overlay options: Rule of Thirds, Grid, Diagonal, Triangle, Golden Ratio, Golden Spiral; Auto / Always / Never Show Overlay; O cycles the overlay, Shift+O its orientation"
 status = "done"
+released = "0.6.0"
+checked = 2026-10-09
 issue = 1919
 note = "crop_overlay.rs: unit-square guides shared by upright and turned frames (canvas.rs), options-bar menu, O / Shift+O ahead of the tool keys in shortcuts.rs; ToolOptions crop_overlay / crop_overlay_show / crop_overlay_orientation, ui.set cropOverlay / cropOverlayShow / cropOverlayOrientation"
 
@@ -254,6 +320,8 @@ note = "crop_overlay.rs: unit-square guides shared by upright and turned frames 
 id = "TOOL-214-18"
 target = "Crop: drag outside the frame to rotate it (Shift 15 deg steps, angle readout); Enter rotates and crops in one step"
 status = "done"
+released = "0.6.0"
+checked = 2026-10-10
 issue = 1792
 note = "image.crop angle param (image_cmds.rs: Image Rotation > Arbitrary + crop, one undo step); crop_ui.rs turns, moves and resizes the frame along its axes (Classic Mode; default mode turns the image instead, TOOL-214-23); UiState.crop_angle"
 
@@ -261,6 +329,8 @@ note = "image.crop angle param (image_cmds.rs: Image Rotation > Arbitrary + crop
 id = "TOOL-214-19"
 target = "Crop: arrow keys nudge the crop box (Shift 10 px), X swaps portrait/landscape, W x H readout while drawing or resizing"
 status = "done"
+released = "0.6.0"
+checked = 2026-10-09
 issue = 1919
 note = "crop_ui.rs keys/nudge/swap_orientation (ahead of the selection nudge and tools.swapColors in shortcuts.rs; X also swaps the options-bar ratio) and sizing (canvas.rs draws it with the marquee readout); turned frames included"
 
@@ -268,6 +338,8 @@ note = "crop_ui.rs keys/nudge/swap_orientation (ahead of the selection nudge and
 id = "TOOL-214-21"
 target = "Crop: Straighten button in the options bar and Cmd/Ctrl-drag draw a line; the frame turns so the line ends up level (or plumb when nearer vertical), with an angle readout"
 status = "done"
+released = "0.6.0"
+checked = 2026-10-10
 issue = 1919
 note = "crop_straighten.rs: one-shot options-bar button, Cmd/Ctrl held is a temporary Straighten (ui.pointer command flag); the Ruler's straighten_angle convention; the frame is fitted to the largest of its proportions inside the image (Classic Mode); a pending edit committed by Enter"
 
@@ -275,6 +347,8 @@ note = "crop_straighten.rs: one-shot options-bar button, Cmd/Ctrl held is a temp
 id = "TOOL-214-22"
 target = "Crop gear menu: Show Cropped Area (H), Enable Crop Shield with Match Canvas / custom colour, opacity and Auto Adjust Opacity"
 status = "done"
+released = "0.6.0"
+checked = 2026-10-10
 issue = 1919
 note = "crop_shield.rs: fill() resolves the shield (canvas.rs paints it around upright and turned frames), gear popup in the options bar, H ahead of the Hand key in shortcuts.rs, Custom… opens the Color Picker; ToolOptions crop_shield, ui.set cropShield. Use Classic Mode / Auto Center Preview: TOOL-214-23"
 
@@ -282,6 +356,8 @@ note = "crop_shield.rs: fill() resolves the shield (canvas.rs paints it around u
 id = "TOOL-214-23"
 target = "Crop: Photoshop's default mode (the image turns and moves behind an upright box, Auto Center Preview keeps a resized box's centre in place and centres a drawn one) and Use Classic Mode (P) in the gear menu"
 status = "done"
+released = "0.7.0"
+checked = 2026-10-10
 issue = 1919
 note = "crop_mode.rs: the crop model (crop_rect + crop_angle) and image.crop are shared by both modes; default mode sets the view's rotation to -crop_angle while the tool shows a frame (picking the tool, in either mode, turns a Rotate View turn upright about the view centre, not restored after Enter/Esc or by P; Classic Mode keeps the camera upright with the frame drawn turned; as Photoshop 25.1), pivoting so the box stays put, moves view and frame together for drags inside and arrow keys, keeps a resized box's centre in place live (Auto Center Preview; a drawn box is centred on release, a moved one never), readout = the image's turn; gear menu order and Classic Mode greying as Photoshop 25.1; CropShield classic_mode / auto_center_preview (ui.set cropShield), P ahead of the Pen key"
 
@@ -289,6 +365,8 @@ note = "crop_mode.rs: the crop model (crop_rect + crop_angle) and image.crop are
 id = "TOOL-1053-1"
 target = "Shape stroke controls: solid/dashed/dotted, custom dash/gap/offset, caps, joins, alignment, miter limit and opacity"
 status = "done"
+released = "0.7.0"
+checked = 2026-10-10
 issue = 1053
 note = "shape_stroke_ui.rs: shared staged editor, renderer samples, cached Properties canvas preview; existing shape.create/edit/info; serde tool defaults, ui.set shapeStroke; pcraft and vstk style round trips. Gradient fill UI and saved stroke libraries remain open; Line retains filled-bar geometry"
 
@@ -296,6 +374,8 @@ note = "shape_stroke_ui.rs: shared staged editor, renderer samples, cached Prope
 id = "TOOL-213-19"
 target = "Remove tool: paint over an object (or circle it) and it is filled from its surroundings"
 status = "partial"
+released = "0.7.0"
+checked = 2026-10-12
 issue = 213
 note = "paint.remove (retouch_cmds/remove.rs, background job) + Tool::Remove in the J flyout; loops close over what they enclose; fill by non-local patch completion with texture features, onion-peel start, best-patch copy and gradient-domain seam hiding (algo/nonlocal.rs, Newson et al. IPOL 2017); sparse holes in tiles (algo/remove.rs). remove_quality on 20 holes in public-domain photos: the fill keeps 0.89 of the texture it replaces (0.54 with Content-Aware Fill's completion), edge gradient 1.03 of the original's; remove_bench 24 MP: 100 px ring 120 ms, 1000 px ring 2.5 s, 3000 px line 1.7 s. Options bar: Sample All Layers, Create a new layer (the fill on a new layer above, `newLayer`), Remove after each stroke off (strokes collect as a tint and ↩ applies them as one `strokes` job, Esc drops them). Missing: generative AI mode, live preview of the result"
 
@@ -303,6 +383,8 @@ note = "paint.remove (retouch_cmds/remove.rs, background job) + Tool::Remove in 
 id = "TOOL-2259-1"
 target = "Arrow-key nudges of one thing (layers, the selection outline, the Free Transform box) that follow each other are one History state, with a preference to turn it off"
 status = "done"
+released = "0.10.0"
+checked = 2026-10-14
 issue = 2259
 note = "nudge_bundle.rs: a run shares one `coalesce` key while each nudge comes within Tools > Nudge Bundle Pause (1 s) and nothing else touched the document (an edit, Undo/Redo, a layer selection, a save end it); move_mods.rs runs layer.translate and select.transformSelection through it, transform_tool.rs folds box nudges into one session step. Tools > Bundle Arrow-Key Nudges off gives every press its own state. Selected pixels float until dropped, which is one state already; ⌥-nudges (a copy each) never join a run"
 
@@ -310,5 +392,7 @@ note = "nudge_bundle.rs: a run shares one `coalesce` key while each nudge comes 
 id = "TOOL-1045-1"
 target = "Color Replacement tool on the toolbar"
 status = "done"
+released = "0.8.0"
+checked = 2026-10-11
 issue = 1045
 note = "Tool::ColorReplacement in the Brush (B) flyout after the Mixer Brush; Mode/Sampling/Limits/Tolerance/Anti-alias options drive paint.colorReplacement with the foreground colour; live preview (LiveDab with the stroke's finishing dab), one History step; color_replacement_tests.rs"

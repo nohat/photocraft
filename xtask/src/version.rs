@@ -100,6 +100,11 @@ pub fn run(root: &Path, args: &[&str]) -> Result<(), String> {
                 crate::run(c, "cargo update --workspace")?;
             }
             println!("version: {old} -> {new}");
+            // A release: record it on every scorecard row whose status is new since the last one.
+            if !new.contains('-') {
+                let n = crate::scorecard::stamp_release_all(root, new)?;
+                println!("scorecard: {n} row(s) stamped released = \"{new}\"; commit scorecard/*.toml and docs/scorecard.md with the bump");
+            }
             Ok(())
         }
         _ => Err("usage: cargo xtask version [set X.Y.Z[-pre]]".into()),

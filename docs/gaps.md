@@ -50,7 +50,7 @@ estimate is marked as not rebuilt rather than replaced with a guess.
   transparency remain unsupported and are preserved verbatim; the five visual examples do not
   establish Photoshop's exact noise algorithm or include this degenerate constant case.
 - **Evidence:** corpus floors (`crates/io/tests/corpus.rs`, scorecard): Photoshop-authored
-  oracles 188/258 (73%; smart filter masks 2026-10-14; CMYK and Lab adjustment layers, 32-bit unclipped adjustments, Levels, Threshold, Posterize and mask feathers 2026-10-13; Gradient Map luminosity 2026-10-13; CMYK Invert, Posterize and Threshold on the inks 2026-10-12), io corpus 148/170 (87%), psd-tools 249/309 (81%); round trips ~100%
+  oracles <!-- fact:corpus.photoshop.pass_of -->188/258<!-- /fact --> (<!-- fact:corpus.photoshop.pass_pct -->73%<!-- /fact -->; smart filter masks 2026-10-14; CMYK and Lab adjustment layers, 32-bit unclipped adjustments, Levels, Threshold, Posterize and mask feathers 2026-10-13; Gradient Map luminosity 2026-10-13; CMYK Invert, Posterize and Threshold on the inks 2026-10-12), io corpus <!-- fact:corpus.psd.pass_of -->148/170<!-- /fact --> (<!-- fact:corpus.psd.pass_pct -->87%<!-- /fact -->), psd-tools <!-- fact:corpus.psd-tools.pass_of -->249/309<!-- /fact --> (<!-- fact:corpus.psd-tools.pass_pct -->81%<!-- /fact -->); round trips ~100%
   within the corpus. Smart-filter re-render matches 5/30. User reports: a PSD with text layers
   re-saved unmodified would not reopen (#2374, closed 2026-10-10), Photoshop 26.6 cannot reopen our files (#1281), "PSD not
   opening in Photoshop" (#2469), a CS2-era smart object unavailable (#2465, fixed 2026-10-12), PSB smart object
@@ -73,7 +73,7 @@ estimate is marked as not rebuilt rather than replaced with a guess.
   scripted check there) is the only real oracle.
 
 ### G6. Missing tools
-- **Missing (1 of 68):** Art History Brush. Convert Point landed (#3204). Freeform
+- **Missing (toolbox <!-- fact:tools.inventory -->67 of 68<!-- /fact -->, <!-- fact:tools.inventory.measured -->2026-10-21<!-- /fact -->):** <!-- fact:tools.missing -->Art History Brush<!-- /fact -->. Convert Point landed (#3204). Freeform
   Pen and Curvature Pen landed (#1054); Color Sampler landed (#1046, `view.colorSamplers.*`); Horizontal and Vertical Type Mask landed (#1055,
   `type.createSelection`); Perspective Crop landed (#1043, `image.perspectiveCrop`); Frame landed
   (#2914).
@@ -114,7 +114,7 @@ estimate is marked as not rebuilt rather than replaced with a guess.
   (TYPE-218-6, #206), variable-font axes (TYPE-218-4, #2985), Warp on live type without a
   rasterize prompt, as in Photoshop (TYPE-218-9, #3004), and the live Warp Text preview that opens
   with the layer's warp (TYPE-218-7, #2689).
-- **Evidence:** scorecard Type on `main`: 5 done, 3 partial, 1 missing (0.11.1's scorecard: 4 / 3 / 2). The Type area percentage in target-app-parity.md has not been re-graded from this. 2026-10-11: 2/3/4/5 clicks select
+- **Evidence:** scorecard Type on `main`: <!-- fact:checklist.type -->5 done, 3 partial, 1 missing<!-- /fact --> (0.11.1's scorecard: 4 / 3 / 2). The Type area percentage in target-app-parity.md has not been re-graded from this. 2026-10-11: 2/3/4/5 clicks select
   word, line, paragraph and all text, with tests (TYPE-218-8, #3493). The Type tool froze the app for
   60 s on one macOS machine (#2518).
 - **Estimate:** 120–200 h.
@@ -192,7 +192,7 @@ estimate is marked as not rebuilt rather than replaced with a guess.
 ## UI / UX gaps
 
 ### G3. User-reported bug backlog
-- **2026-10-21:** a query returned 1,748 open issues, excluding pull requests (579 on 2026-10-10,
+- **<!-- fact:issues.open.measured -->2026-10-21<!-- /fact -->:** a query returned <!-- fact:issues.open -->1,748<!-- /fact --> open issues, excluding pull requests (579 on 2026-10-10,
   953 on 2026-10-13). That count includes feature requests and other reports, so it measures
   neither the rate of regressions nor the number of unresolved release blockers. Beta criteria
   should rest on severity, data loss, reproducibility and supported workflows instead of a
@@ -249,7 +249,7 @@ estimate is marked as not rebuilt rather than replaced with a guess.
   tool press zooms continuously about the press point, ⌥ out (#6210, `ui-egui/src/zoom_hold.rs`).
 - **Progress (2026-10-12):** toolbar tool shortcuts can be reassigned, removed and reset (#4086),
   with saved bindings, matching toolbar hints and regression coverage (`ui-egui/src/tool_shortcuts.rs`).
-- **Missing:** 24 of 171 preferences do nothing (scorecard prefs audit, 2026-10-15: Save in
+- **Missing:** <!-- fact:prefs.unread -->24 of 171<!-- /fact --> preferences do nothing (scorecard prefs audit, 2026-10-15: Save in
   Background now takes effect, #6207); panel groups can't
   tear off into separate OS windows, and restoring floating groups at launch is not verified
   (UI-217-5 partial, #1828, #1213, #2305; inside the app window, panels float and regroup through
@@ -272,7 +272,7 @@ estimate is marked as not rebuilt rather than replaced with a guess.
   pass that puts a Background's alpha back now runs per tile in parallel and checks for
   cancellation, and column-strip box passes check between passes. The uncancelled job is
   ~40% faster (p50 about 690 → 400 ms). #6205.
-- **Baseline age (2026-10-21):** every number below comes from the 2026-10-05 baseline, taken
+- **Baseline age (2026-10-21):** every number below comes from the <!-- fact:perf.baseline -->2026-10-05<!-- /fact --> baseline, taken
   before a lot of the optimisation work in this entry. It can't establish today's performance,
   and the individual speedups recorded here don't show that the remaining budgets pass. The
   entry closes on fresh measurements on named hardware for brushes, transforms, layer edits,
@@ -313,7 +313,7 @@ estimate is marked as not rebuilt rather than replaced with a guess.
 
 ### G13. Hindi, Arabic, RTL, engine messages and catalog review
 - **Done:** Vietnamese, merged 2026-10-12 (#2636) with locale selection and in 0.11.1;
-  `cargo xtask i18n-coverage` on 2026-10-21 measures 1,918 of 1,918 UI keys. Not reviewed by a
+  `cargo xtask i18n-coverage` measures <!-- fact:i18n.vi.of -->1,918 / 1,918<!-- /fact --> UI keys. Not reviewed by a
   native speaker.
 - **Missing:** catalogs for Hindi and Arabic (2 of the 12 key languages); right-to-
   left UI layout; Devanagari fallback fonts (Thai #1909 and Khmer, Lao and Myanmar #3259 landed); engine error and status messages in
